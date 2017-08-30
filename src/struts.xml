@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="default" namespace="/" extends="struts-default">
+	<!-- 测试 -->
+		<action name="test" class="test.TestAction">
+			<result>index.jsp</result>
+		</action>
+		
+		<action name="file_ajax" class="test.FileAjaxTest">
+			<result>index.jsp</result>
+		</action>
+	<!-- 测试 -->
+	
+	<!-- 页面跳转管理 -->
+		<action name="index" class="test.TestAction">
+			<result>index.jsp</result>
+		</action>
+		<action name="users" class="test.TestAction">
+			<result>users.jsp</result>
+		</action>
+		<action name="managers" class="test.TestAction">
+			<result>managers.jsp</result>
+		</action>
+		<action name="comment_manage" class="test.TestAction">
+			<result>comment_manage.jsp</result>
+		</action>
+		<action name="notice_manage" class="test.TestAction">
+			<result>notice_manage.jsp</result>
+		</action>
+		<action name="reserve_manage" class="test.TestAction">
+			<result>reserve_manage.jsp</result>
+		</action>
+	<!-- 页面跳转管理 -->
+	
+	<!-- 图书管理 -->
+		<!-- 图书图片上传 -->
+		<action name="img_upload" class="action.book.ImgFileUpload" method="uploadImg">
+		</action>
+		
+		<!-- excel下载  。。jar包位置要放在lib下-->
+		<action name="output_excel" class="action.book.ExcelOutput">
+			<result name="success" type="stream"> 
+				<!-- 下载文件的类型，如果你不知道是什么格式，可以去 tomcat\conf\web.xml下找 -->  
+                <param name="contentType">application/vnd.ms-excel</param>  
+                <!-- 返回流 excelStream为action中的流变量名称 -->  
+                <param name="inputName">excelStream</param>  
+                <!-- attachment 这个位置的参数挺特殊的，可以设置成下载时，是否出现个下载提示框，或者直接下载之类的。  
+                fileName指定生成的文件名字(适合动态生成文件名，比如做报表时，一般都要说是几月的统计数据之类)为action中变量-->  
+                <param name="contentDisposition">  
+                    attachment;filename=${excelFileName}  
+                </param>  
+                <param name="bufferSize">1024</param>
+            </result>
+		</action>
+		
+	<!-- 导入图书 -->
+		<action name="upload_excel" class="action.book.ExcelUpload">
+		</action>
+	
+	<!-- 图书管理 -->
+	
+	<!-- 用户管理 -->
+		<!-- 获取所有用户信息 -->
+		<action name="get_user_info" class="action.user.UserAction">
+		</action>
+	<!-- 用户管理 -->
+	
+	<!-- 管理员列表 -->
+		<!-- 获取所有管理员信息 -->
+		<action name="get_manager_info" class="action.manager.ManagerAction">
+		</action>
+		
+		<!-- 获取单个管理员信息 -->
+		<action name="get_single_manager" class="action.manager.ManagerAction" method="getSingleManager">
+		</action>
+		
+		<!-- 新增管理员 -->
+		<action name="add_manager" class="action.manager.ManagerAction" method="addNewManager">
+		</action>
+		
+		<!-- 修改管理员 -->
+		<action name="update_manager" class="action.manager.ManagerAction" method="updateManager">
+		</action>
+	<!-- 管理员列表 -->
+	</package>
+</struts>
