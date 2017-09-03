@@ -22,6 +22,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/datepicker3.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
+	
+	<style>
+		.underlineInput {
+			border-top-width: 0px;
+			border-right-width: 0px;
+			border-left-width: 0px;
+			border-bottom: #787878 1px solid;
+			background-color: #F1F4F7;
+			width: 20%;
+		}
+		
+		.nounderline{
+			border-top-width: 0px;
+			border-right-width: 0px;
+			border-left-width: 0px;
+			border-bottom-width: 0px;
+			background-color: #F1F4F7;
+		}
+		
+		#noticeImg{
+			height:200px;
+			width:470px; 
+		}
+	</style>
   </head>
   
   <body>
@@ -37,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a class="navbar-brand" href="#"><span>超新星智能图书馆</span>后台管理系统</a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> User <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span id="USER"></span> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
@@ -90,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div><!--/.sidebar-->
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		<div class="row">
+		<div class="row" style="height:15px;">
 			<ol class="breadcrumb">
 				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="active">公众号管理</li>
@@ -98,267 +122,70 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div><!--/.row-->
 		
 		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">公告管理</h1>
+			<div class="col-lg-3">
+				<h2 class="page-header">公告管理</h2>
 			</div>
+			
 		</div><!--/.row-->
         
-     
-		
-		<div class="row">
-			<div class="col-xs-12 col-md-6 col-lg-3">
-				<div class="panel panel-blue panel-widget ">
-					<div class="row no-padding">
-						<div class="col-sm-3 col-lg-5 widget-left">
-							<em class="glyphicon glyphicon-shopping-cart glyphicon-l"></em>
-						</div>
-						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">120</div>
-							<div class="text-muted">New Orders</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-12 col-md-6 col-lg-3">
-				<div class="panel panel-orange panel-widget">
-					<div class="row no-padding">
-						<div class="col-sm-3 col-lg-5 widget-left">
-							<em class="glyphicon glyphicon-comment glyphicon-l"></em>
-						</div>
-						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">52</div>
-							<div class="text-muted">Comments</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-12 col-md-6 col-lg-3">
-				<div class="panel panel-teal panel-widget">
-					<div class="row no-padding">
-						<div class="col-sm-3 col-lg-5 widget-left">
-							<em class="glyphicon glyphicon-user glyphicon-l"></em>
-						</div>
-						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">24</div>
-							<div class="text-muted">New Users</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-12 col-md-6 col-lg-3">
-				<div class="panel panel-red panel-widget">
-					<div class="row no-padding">
-						<div class="col-sm-3 col-lg-5 widget-left">
-							<em class="glyphicon glyphicon-stats glyphicon-l"></em>
-						</div>
-						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">25.2k</div>
-							<div class="text-muted">Visitors</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/.row-->
-		
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">Site Traffic Overview</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/.row-->
-		
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel">
-						<h4>New Orders</h4>
-						<div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span class="percent">92%</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel">
-						<h4>Comments</h4>
-						<div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span class="percent">65%</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel">
-						<h4>New Users</h4>
-						<div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span class="percent">56%</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel">
-						<h4>Visitors</h4>
-						<div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/.row-->
-								
-		<div class="row">
-			<div class="col-md-8">
-			
-				<div class="panel panel-default chat">
-					<div class="panel-heading" id="accordion"><span class="glyphicon glyphicon-comment"></span> Chat</div>
-					<div class="panel-body">
-						<ul>
-							<li class="left clearfix">
-								<span class="chat-img pull-left">
-									<img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header">
-										<strong class="primary-font">John Doe</strong> <small class="text-muted">32 mins ago</small>
-									</div>
-									<p>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies. 
-									</p>
-								</div>
-							</li>
-							<li class="right clearfix">
-								<span class="chat-img pull-right">
-									<img src="http://placehold.it/80/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header">
-										<strong class="pull-left primary-font">Jane Doe</strong> <small class="text-muted">6 mins ago</small>
-									</div>
-									<p>
-										Mauris dignissim porta enim, sed commodo sem blandit non. Ut scelerisque sapien eu mauris faucibus ultrices. Nulla ac odio nisl. Proin est metus, interdum scelerisque quam eu, eleifend pretium nunc. Suspendisse finibus auctor lectus, eu interdum sapien.
-									</p>
-								</div>
-							</li>
-							<li class="left clearfix">
-								<span class="chat-img pull-left">
-									<img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header">
-										<strong class="primary-font">John Doe</strong> <small class="text-muted">32 mins ago</small>
-									</div>
-									<p>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies. 
-									</p>
-								</div>
-							</li>
+     	<div class="row">
+     		
+     		
+     		
+     		<div class="col-lg-8 col-lg-offset-3">
+     			<div style="font-size:20px;" class="col-sm-12">
+     				<span>标题：</span>
+     				<input type="text" value="闭馆通知" class="nounderline" id="title"/>
+     				<button type="button" class="btn btn-success" id="announcement" style="margin-left:15%;">发布</button>
+     			</div>
+     			<div class="col-sm-12">
+     				<span>发布时间：</span>
+     				<input type="text" value="2017-07-01" class="nounderline" id="time"/>
+     				
+     			</div>
+     			<div class="col-sm-12" style="margin-top:5px;">
+     				<span>通知类型：</span>
+     				<span class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" 
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectCate">
+							<span id="selectedCate1">图书馆安排</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="javascript:void(0)" class="category">图书馆安排</a></li>
+							<li><a href="javascript:void(0)" class="category">借书须知</a></li>
+							<li><a href="javascript:void(0)" class="category">好书推荐</a></li>
+						
 						</ul>
-					</div>
-					
-					<div class="panel-footer">
-						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." />
-							<span class="input-group-btn">
-								<button class="btn btn-success btn-md" id="btn-chat">Send</button>
-							</span>
-						</div>
-					</div>
-				</div>
-				
-			</div><!--/.col-->
-			
-			<div class="col-md-4">
-			
-				<div class="panel panel-blue">
-					<div class="panel-heading dark-overlay"><span class="glyphicon glyphicon-check"></span>To-do List</div>
-					<div class="panel-body">
-						<ul class="todo-list">
-						<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Make a plan for today</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-								</div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Update Basecamp</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-								</div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Send email to Jane</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-								</div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Drink coffee</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-								</div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Do some work</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-								</div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox" />
-									<label for="checkbox">Tidy up workspace</label>
-								</div>
-								<div class="pull-right action-buttons">
-									<a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-									<a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-								</div>
-							</li>
-						</ul>
-					</div>
-					<div class="panel-footer">
-						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />
-							<span class="input-group-btn">
-								<button class="btn btn-primary btn-md" id="btn-todo">Add</button>
-							</span>
-						</div>
-					</div>
-				</div>
-								
-			</div><!--/.col-->
-		</div><!--/.row-->
+	     			</span>
+	     			<button type="button" class="btn btn-info" onclick="image.click()" style="margin-left:34%;">替换图片</button>
+     			<div class="col-sm-12">
+     				<img id="noticeImg" src="http://118.89.198.254/library/image/announcement/1.jpg">
+					<form action="#" enctype="multipart/form-data" method="post" id="userForm">
+						<input type="file" id="image" name="image" style="visibility: hidden; position: absolute;">
+					</form>
+     			</div>
+     			<div class="col-sm-12" style="font-size:16px;">
+     				<span>内容：</span>
+     			</div>
+     			
+     			<div class="col-sm-12" style="font-size:16px;">
+     				
+     				<textarea rows="2" cols="55" style="background-color: #F1F4F7;" id="content"></textarea>
+     				<!--  <input type="text" value="清明放假" class="nounderline" style="width:500px;height:100px;"/>-->
+     			</div>
+     			
+     		</div>
+     	</div>
+		
+		<div class="col-lg-12" style="margin-top:10px;margin-left:45%;">	
+				<ul class="pagination" style="margin:0 auto;">
+					<li class="active"><a href="javascript:void(0);" class="noticeId">1</a></li>
+					<li><a href="javascript:void(0);" class="noticeId">2</a></li>
+					<li><a href="javascript:void(0);" class="noticeId">3</a></li>			    
+				</ul>				
+		</div>
+		
 	</div>	<!--/.main-->
 
 	<script src="js/jquery-1.11.1.min.js"></script>
@@ -368,6 +195,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="js/easypiechart.js"></script>
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
+	
+	<script>
+		$(function(){
+			if(sessionStorage.username == null){
+				location.href = "login.action";
+			}else{
+				var userName = sessionStorage.username;
+				$("#USER").html(userName);
+			}
+			
+		});
+	</script>
+	
 	<script>
 		$('#calendar').datepicker({
 		});
@@ -386,5 +226,188 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
 		})
 	</script>	
+	
+	<script>
+		//选择类别
+		$(".category").click(function(){
+			console.log($(this).html());
+			$("#selectedCate1").html($(this).html());
+		});
+	</script>
+	<script src="js/jquery.form.js"></script>
+	<script>
+		
+		var noticeId = "1";
+		$(function(){
+			notice_get();
+			
+        });
+        	
+        function notice_get(){
+        	$.ajax({    
+				type:'post',        
+				url:'/library_web/get_notice.action',    
+				data:{	
+					noticeId : noticeId		
+           		 },   
+	            cache:false,    
+	            //dataType:'json',    
+	            success:function(data){ 
+            	console.log("请求数据成功" +data);
+            	$.each(eval("(" + data+ ")"), function (index, obj) {
+					    var anno_id = obj.anno_id;
+	            		var category = obj.category;
+	            		var content = obj.content;
+	            		var img = obj.img;
+	            		var time = obj.time;
+	            		var title = obj.title;
+	            		
+	         			//var reg = "^(/library).*$";
+	         			img = img.replace("/", 'http://118.89.198.254/'); 
+	         			
+	         			$("#title").val(title);
+	         			$("#time").val(time);
+	         			$("#selectedCate1").html(category);
+	         			$("#noticeImg").attr("src", img);
+	         			$("#content").val(content);
+					});
+		         },
+		         error:function(){
+		            console.log("请求数据失败");
+		         }    
+			}); 
+        }
+        
+		
+		
+		$(".noticeId").click(function(){
+			noticeId = $(this).html();
+			$(this).parent().siblings().removeClass("active");
+			$(this).parent().addClass("active");
+			notice_get();
+		});	
+			
+			
+		$("#announcement").click(function(){
+			var title = $("#title").val();
+			var category = $("#selectedCate1").html();
+			var time = $("#time").val();
+			var content = $("#content").val();
+				
+			var reg = /[^\\\/]*[\\\/]+/g; //匹配文件的名称和后缀的正则表达式  
+			var image;
+			console.log($("#image").val());
+			if($.trim($("#image").val()) == ''){
+				image = noticeId + ".jpg";
+			}else{
+				image = $("#image").val().replace(reg, '');
+			}
+			
+      		  
+      		var noticeImg = "/library/image/announcement/" + image;
+      		console.log(title);
+      		console.log(category);
+      		console.log(time);
+      		console.log(content);
+      		console.log(noticeImg);
+      		console.log(noticeId);
+      		update_notice(title, category, time, content, noticeImg, noticeId);
+		});		
+		
+		//更新通知
+		function update_notice(title, category, time, content, noticeImg, noticeId){
+			$.ajax({    
+				type:'post',        
+				url:'/library_web/update_notice.action',    
+				data:{	
+					title : title,
+					category : category,
+					time : time,
+					content : content,
+					img : noticeImg,
+					noticeId : noticeId		
+           		 },   
+	            cache:false,    
+	            //dataType:'json',    
+	            success:function(data){ 
+            		console.log("请求数据成功" +data);
+		         },
+		         error:function(){
+		            console.log("请求数据失败");
+		         }    
+			}); 
+		}	
+	
+		//添加图书图片
+		$("#image").bind("change", function(){
+			console.log("状态改变了");
+			//获取图片的路径，该路径不是图片在本地的路径
+			var objUrl = getObjectURL(this.files[0]) ; 
+			if (objUrl) {
+				//将图片路径存入src中，显示出图片
+				$("#noticeImg").attr("src", objUrl) ; 
+				console.log(objUrl);
+				console.log(this.name);
+				//ajaxSubmitForm();
+			}
+
+		});
+
+		//建立一个可存取到该file的url
+		function getObjectURL(file) {
+			var url = null ;
+			// basic
+			if (window.createObjectURL!=undefined) { 
+				url = window.createObjectURL(file) ;
+				// mozilla(firefox)
+			} else if (window.URL!=undefined) { 
+				url = window.URL.createObjectURL(file) ;
+				// webkit or chrome
+			} else if (window.webkitURL!=undefined) { 
+				url = window.webkitURL.createObjectURL(file) ;
+			}
+			return url ;
+		}
+		
+		//ajax提交图片
+		function ajaxSubmitForm() {
+			
+	    	$("#userForm").ajaxSubmit({  
+	    		type:'post',  
+	    		url:'/library_web/img_upload.action',  
+	    		xhr: function(){
+	    			//进度条
+			        myXhr = $.ajaxSettings.xhr();
+			        if(myXhr.upload){
+			        	myXhr.upload.addEventListener('progress',function(e) {
+			            	if (e.lengthComputable) {
+				              	var percent = Math.floor(e.loaded/e.total*100);
+				              	if(percent <= 100) {
+				              		$(".progress").attr("style","width:70%;margin:0 auto;");
+				                	$("#progress").attr("style", "width:" + percent + "%");
+				                	$("#progressNum").html(percent+"%");
+				                	console.log(percent);
+				              	}
+				              	if(percent >= 100) {
+				                	console.log("上传完成");
+				              	}
+				            }
+			        	}, false);
+			    	}
+			        return myXhr;
+			    },
+	    		success:function(data){  
+	    			console.log(data);  
+	    		},  
+	    		error:function(XmlHttpRequest,textStatus,errorThrown){  
+	    			console.log(XmlHttpRequest);  
+	    			console.log(textStatus);  
+	    			console.log(errorThrown);  
+	    		}  
+	    	});  
+			//返回false阻止表单再次提交
+	    	return false; 
+	    }
+	</script>
   </body>
 </html>

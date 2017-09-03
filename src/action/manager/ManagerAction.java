@@ -107,6 +107,23 @@ public class ManagerAction extends ActionSupport{
     	pw.close();
 	}
 	
+	/**
+	 * …æ≥˝π‹¿Ì‘±
+	 * @throws IOException
+	 */
+	public void deleteManager() throws IOException {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+    	response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("utf-8");
+    	PrintWriter pw = response.getWriter();
+    	String id = request.getParameter("id");
+    	SQLUtil.deteleManager(id);
+    	pw.write("success");
+    	pw.flush();
+    	pw.close();
+	}
+	
 	public static void main(String[] args) {
 		List<ManagerInfo> managers = SQLUtil.getAllManagers();
     	String jsonStr = JSONArray.fromObject(managers).toString();

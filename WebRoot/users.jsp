@@ -79,7 +79,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			text-align: left;
 		}
 		
+		.borrowBook{
+			height:160px;
+			width:100px;
+			margin-top:15%;
+		}
 		
+		/*table{
+			width:100%;
+			text-align:center;
+		}*/
+		
+		table.dataintable{
+			border: 1px solid #888888;
+			border-collapse: collapse;
+			font-family: Arial,Helvetica,sans-serif;
+			margin-top: 10px;
+			width: 100%;
+		}
+		table.dataintable th {
+			background-color: #D5D5D5;/*cccccc*/
+			border: 1px solid #888888;
+			padding: 5px 15px 5px 5px;
+			text-align: center;
+			vertical-align: baseline;
+		}
+		table.dataintable td {
+			background-color: #EFEFEF;
+			border: 1px solid #AAAAAA;
+			padding: 5px 15px 5px 5px;
+			text-align: center;
+			vertical-align: text-top;
+		}
 	</style>
 
   </head>
@@ -97,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a class="navbar-brand" href="#"><span>超新星智能图书馆</span>后台管理系统</a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> User <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span id="USER"></span> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
@@ -159,27 +190,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">人员管理</h1>
+				<h2 class="page-header">人员管理</h2>
 			</div>
 		</div><!--/.row-->
 
-		<div class="row col-lg-12">
+		<div class="row col-lg-6">
 			<span style="font-size:25px;">
 				在店人数
 			</span>
-
+		</div>
+		<div class="row col-lg-6">
+			<span style="font-size:25px;">
+				借阅人数
+			</span>
 		</div>
 		
-		<div class="row col-lg-12">
-			<div id="people" style="width: 100%;height:100%;margin-left:auto;margin-right:auto;"></div>
+		<div class="row col-sm-12 col-lg-6">
+			<div id="people" style="width: 100%;height:50%;margin-left:auto;margin-right:auto;"></div>
 		</div>
 
+		<div class="row col-sm-12 col-lg-6">
+			<div id="borrowPeople" style="width:90%;height:45%;margin-left:auto;margin-right:auto;"></div>
+		</div>
+		
 		<div class="row col-lg-12">
 			<span style="font-size:25px;">
 				注册用户
 			</span>
 		</div>
-
+		
+		
 		<div class="row" id="userDiv">
 
 
@@ -228,6 +268,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
+		
+		<!--弹窗-->
+		<div class="modal" id="mymodal2">
+			<div class="modal-dialog modal-lg"><!--modal-lg-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">借阅信息</h4>
+					</div>
+					<div class="modal-body" style="text-align:center;" id="borrow">
+						
+						
+
+					</div>
+					<div class="modal-footer">
+						<!-- <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-top:10px;">关闭</button> -->
+						<!-- <button type="button" class="btn btn-primary" id="saveButton">保存</button> -->
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
 	</div>	<!--/.main-->
 
 </div>	<!--/.main-->
@@ -239,6 +301,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/easypiechart.js"></script>
 <script src="js/easypiechart-data.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
+
+<script>
+		$(function(){
+			if(sessionStorage.username == null){
+				location.href = "login.action";
+			}else{
+				var userName = sessionStorage.username;
+				$("#USER").html(userName);
+			}
+			
+		});
+</script>
+
 <script>
 	$('#calendar').datepicker({
 	});
@@ -278,7 +353,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             		var tel = obj.tel;
          			
             		console.log(nickname);
-            		addUserDom(headimgurl, nickname, idCard, realName, tel);
+            		addUserDom(headimgurl, nickname, idCard, realName, tel, openid);
 				});
             },
             error:function(){
@@ -288,12 +363,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }); 
 	});
 	
-	function addUserDom(headimgurl, nickname, idCard, realName, tel){
+	function addUserDom(headimgurl, nickname, idCard, realName, tel, openid){
 		//节点属性
 		var outDom = $("<div></div>");
 		outDom.addClass("col-xs-12 col-sm-6 col-lg-3");
 		var myUser = $("<div></div>");
 		myUser.addClass("myUser");
+		myUser.attr("weid", openid);
 		//myUser.attr("click", toggleFun);
 		var a = $("<a></a>");
 		a.attr("href", "javascript:void(0)");
@@ -335,22 +411,84 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	//弹窗事件父节点监听事件,解决ajax新增节点事件失效问题
 	$(function(){
-		$("#userDiv").on("click", ".myUser", function(){
+		$("#userDiv").on("mousedown", ".myUser", function(event){
+			if(event.which == "1"){
+				$("#userImg").find("img").attr("src", $(this).find("img").attr("src"));
+				$("#nickname").html($(this).find(".myUserName").html());
+				$("#idCard").html($(this).find(".myUserWeId").html());//偷懒一下。。
+				$("#realName").html($(this).find(".myRealName").html());
+				$("#tel").html($(this).find(".myUserPhone").html());
+				
+				
+				console.log($(this).find(".myUserName").html());
+				
+				$("#mymodal").modal("toggle");
+			}else if(event.which == "2"){
+				
+				var weid = $(this).attr("weid");
+				console.log(weid);	
+				$("#borrow").html("");
+				changeBorrowDom(weid);
+				$("#mymodal2").modal("toggle");
+				
+			}
 			
-			$("#userImg").find("img").attr("src", $(this).find("img").attr("src"));
-			$("#nickname").html($(this).find(".myUserName").html());
-			$("#idCard").html($(this).find(".myUserWeId").html());//偷懒一下。。
-			$("#realName").html($(this).find(".myRealName").html());
-			$("#tel").html($(this).find(".myUserPhone").html());
-			
-			
-			console.log($(this).find(".myUserName").html());
-			
-			$("#mymodal").modal("toggle");
 		});
 	});
 		
+	function changeBorrowDom(weid){
+		$.ajax({    
+			type:'post',        
+			url:'/library_web/get_all_borrow.action',    
+			data:{
+				weid : weid					
+		    },   
+		    cache:false,               
+			success:function(data){ 
+				console.log("请求数据成功" + data);
+				$.each(eval("(" + data+ ")"), function (index, obj) {
+ 					var bookImg = obj.bookImg;
+ 					var bookName = obj.bookName;
+ 					var borrowTime = obj.borrowTime;
+ 					var returnTime = obj.returnTime;
+ 					if($.trim(returnTime) == ''){
+						returnTime = "<strong style='color:green'>借阅中</strong>";				
+ 					}
+ 					addBookDom(bookImg, bookName, borrowTime, returnTime);
+ 					
+				});
+				if($.trim($("#borrow").html()) == ''){
+					$("#borrow").html("暂无借阅信息");
+				}
+			},
+			error:function(){
+				console.log("请求数据失败");
+		            	
+			}    
+		}); 
+	}
 	
+	function addBookDom(bookImg, bookName, borrowTime, returnTime){
+		var outside = $("<div></div>");
+		outside.addClass("col-xs-12 col-sm-6 col-md-3");
+		var borrowBookDom = $("<img />");
+		borrowBookDom.attr("src", bookImg);
+		borrowBookDom.addClass("borrowBook");
+		
+		var bookNameDom = $("<div></div>");
+		bookNameDom.html(bookName);
+		var borrowTimeDom = $("<div></div>");
+		borrowTimeDom.html(borrowTime);
+		var returnTimeDom = $("<div></div>");
+		returnTimeDom.html(returnTime);
+		
+		var box = $("#borrow");
+		box.append(outside);
+		outside.append(borrowBookDom);
+		outside.append(bookNameDom);
+		outside.append(borrowTimeDom);
+		outside.append(returnTimeDom);
+	}
 </script>
 
 
@@ -365,9 +503,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		title: {
 			text: 'People in shop'
 		},
+		
 		tooltip : {
 			trigger: 'axis'
-		},    
+		},  
+		 
 		xAxis: {
 			data: []
 		},
@@ -453,7 +593,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			},
 			series: [{
             	// 根据名字对应到相应的系列
-            	name: '销量',
+            	name: '人数',
             	data: [ 
             	simuPeople[5], simuPeople[4], simuPeople[3], simuPeople[2], simuPeople[1], simuPeople[0]
             	],
@@ -503,7 +643,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		},
     		series: [{
             	// 根据名字对应到相应的系列
-            	name: '销量',
+            	name: '人数',
             	data: [ 
             	simuPeople[5], simuPeople[4], simuPeople[3], simuPeople[2], simuPeople[1], simuPeople[0]
             	],
@@ -531,6 +671,106 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </script>
 
+<script type="text/javascript">
+	var myChart2 = echarts.init(document.getElementById('borrowPeople'));
+	
+	option = {
+	    title: {
+	        text: 'Borrowed Number'
+	    },
+	    tooltip: {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	        data:[ '借阅人数']
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    toolbox: {
+	        feature: {
+	            saveAsImage: {}
+	        }
+	    },
+	    xAxis: {
+	        type: 'category',
+	        data: ['2017/08/30', '2017/08/31', '2017/09/01', '2017/09/02', '2017/09/03', '2017/09/04', '2017/09/05']
+	    },
+	    yAxis: {
+	        type: 'value'
+	    },
+	    series: [
+	       
+	        {
+	            name:'借阅人数',
+	            type:'line',
+	            step: 'middle',
+	            data:[7, 5, 15, 12, 8, 6, 7],
+	            markPoint: {
+					data: [
+					{type: 'max', name: '最大值'},
+					{type: 'min', name: '最小值'}
+					]
+				},
+	            color : "#87CEEB"
+	        }
+	    ]
+	};
+	
+	// 显示标题，图例和空的坐标轴
+	myChart2.setOption(option);
+
+	//自适应
+	window.onresize = myChart2.resize; 
+	
+	// 异步加载数据
+	$(function(){
+		myChart2.showLoading();
+		//var count = 0;
+			$.ajax({    
+				type:'post',        
+				url:'/library_web/get_borrow_people',    
+				data:{
+					
+            },   
+            cache:false,    
+            //dataType:'json',    
+            success:function(data){ 
+            	console.log("请求数据成功" + data);
+            	var date = new Array();
+            	var num = new Array();
+            	var json = eval("(" + data+ ")");
+            	
+            	addData(json[0].date, json[0].num);
+            	myChart2.hideLoading();//有可能存在问题
+            },
+            error:function(){
+            	console.log("请求数据失败");
+            	
+            	myChart2.hideLoading();//有可能存在问题
+            }    
+        }); 
+	});
+	
+	function addData(date, num){
+	console.log(date);
+	console.log(num);
+		myChart2.setOption({
+			xAxis: {
+		        type: 'category',
+		        data: date
+		    },
+			series: [
+		       	{
+		            data:num
+		        }
+		    ]
+		});
+	}
+</script>
 
   </body>
 </html>

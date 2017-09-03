@@ -34,6 +34,9 @@
 		<action name="reserve_manage" class="test.TestAction">
 			<result>reserve_manage.jsp</result>
 		</action>
+		<action name="login" class="test.TestAction">
+			<result>login.jsp</result>
+		</action>
 	<!-- 页面跳转管理 -->
 	
 	<!-- 图书管理 -->
@@ -61,13 +64,69 @@
 		<action name="upload_excel" class="action.book.ExcelUpload">
 		</action>
 	
+	<!-- 添加图书 -->
+		<action name="add_new_book" class="action.book.BookAction" method="addNewBook">
+		</action>
+		
+	<!-- 分页 -->
+		<action name="show_limit_books" class="action.book.BookAction" method="showLimitBooks">
+		</action>
+	
+	<!-- 搜索 -->
+		<action name="show_search_books" class="action.book.BookAction" method="showSearchBooks">
+		</action>
+		
+	<!-- 单本图书信息 -->
+		<action name="get_single_book" class="action.book.BookAction" method="getSingleBook">
+		</action>
+		
+		
 	<!-- 图书管理 -->
 	
 	<!-- 用户管理 -->
 		<!-- 获取所有用户信息 -->
 		<action name="get_user_info" class="action.user.UserAction">
 		</action>
+		
+		<!-- 获取用户正在借阅的书籍 -->
+		<action name="get_borrowing" class="action.user.BorrowAction">
+		</action>
+		
+		<!-- 获取用户已经借阅过的书籍 -->
+		<action name="get_borrowed" class="action.user.BorrowAction" method="getBorrowed">
+		</action>
+		
+		<!-- 获取用户借阅的所有书籍包括已经归还的 -->
+		<action name="get_all_borrow" class="action.user.BorrowAction" method="getAllBorrowed">
+		</action>
+		
+		<!-- 获取借阅人数 -->
+		<action name="get_borrow_people" class="action.user.BorrowPeople">
+		</action>
 	<!-- 用户管理 -->
+	
+	<!-- 公众号管理 -->
+		<!-- 获取评论 -->
+		<action name="get_comment" class="action.pub.CommentAction">
+		</action>
+		
+		<!-- 通过审核 -->
+		<action name="pass_comment" class="action.pub.CommentAction" method="passComment">
+		</action>
+		
+		<!-- 删除评论 -->
+		<action name="delete_comment" class="action.pub.CommentAction" method="deleteComment">
+		</action>
+		
+		<!-- 获取公告 -->
+		<action name="get_notice" class="action.pub.NoticeAction">
+		</action>
+		
+		<!-- 更新公告 -->
+		<action name="update_notice" class="action.pub.NoticeAction" method="updateNotice">
+		</action>
+	<!-- 公众号管理 -->
+	
 	
 	<!-- 管理员列表 -->
 		<!-- 获取所有管理员信息 -->
@@ -84,6 +143,10 @@
 		
 		<!-- 修改管理员 -->
 		<action name="update_manager" class="action.manager.ManagerAction" method="updateManager">
+		</action>
+		
+		<!-- 删除管理员 -->
+		<action name="delete_manager" class="action.manager.ManagerAction" method="deleteManager">
 		</action>
 	<!-- 管理员列表 -->
 	</package>

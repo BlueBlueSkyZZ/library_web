@@ -31,6 +31,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 		.prev { padding-left: 8%;float: right;}
 		.next {float: left;}
+		
+		
+		#commentBox{
+			border:2px solid;
+			border-radius:25px;
+			box-shadow: 10px 10px 5px #888888;
+			height : 61.8%;
+			padding-top : 20px;
+			padding-left : 50px;
+			font-size : 20px;
+		}
+		
+		.myRow{
+			margin-top:1%;
+		}
 	</style>
   </head>
   
@@ -47,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a class="navbar-brand" href="#"><span>超新星智能图书馆</span>后台管理系统</a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> User <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span id="USER"></span><span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
@@ -107,41 +122,78 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ol>
 		</div><!--/.row-->
 		
-		<div class="row">
+		<div class="row" style="height:60px;">
 			<div class="col-lg-12">
-				<h1 class="page-header">评论管理</h1>
+				<h2 class="page-header">评论管理</h2>
 			</div>
 		</div><!--/.row-->
 
 		
 		
-		<div class="row" style="margin:0 auto;">
-			<div class="col-xs-2" id="prev" style="background-color:blue;padding-top:20%;padding-right:0">
-				<!-- <a class="unslider-arrow prev">上一个</a> -->
-			</div>
-			<div class="col-xs-8" style="background-color:#fff">
-				<div class="banner">
-				<ul>
-					<li><textarea>4165465456</textarea></li>
-					<li>This is another slide.</li>
-					<li>This is a final slide.</li>
-				</ul>
-			</div>
-			</div>
-			<div class="col-xs-2" id="next" style="background-color:blue;padding-top:20%">
-				<!-- <a class="unslider-arrow next">下一个</a> -->
-			</div>
-			
-			
-			
-			
-			
-		</div>
 		
-		<div class="row">
-			
-		</div>
 		
+		<div class="myRow">
+			<div class="col-sm-2">
+				<button type="button" class="btn btn-info" id="addKeyword">添加关键词</button>
+			</div>
+				
+			<div class="col-sm-8" id="commentBox">
+				<div class="myRow col-sm-12 col-md-6">
+					微信昵称：
+					<span id="wename">你好</span>
+				</div>
+				<div class="myRow col-sm-12 col-md-6">
+					真实姓名：
+					<span id="realname">你好</span>
+				</div>
+				<div class="myRow col-sm-12 col-md-6">
+					评论时间：
+					<span id="time">你好</span>
+				</div>
+				<div class="myRow col-sm-12 col-md-6">
+					评论书名：
+					<span id="bookname">你好</span>
+				</div>
+				<div class="myRow col-sm-12 col-md-6">
+					<span>评论内容：</span>
+					<span>
+						<p class="form-control" style="width:200%;height:200px;font-size:20px;color:black;" id="comment" >你好</p> 
+						
+					</span>	
+				</div>
+				
+			</div>
+		</div><!-- row -->
+		
+		<div class="myRow">
+			<div class="myRow col-xs-12 col-sm-6 col-md-3 col-md-offset-3">
+				<button type="button" class="btn btn-primary btn-lg" id="passComment">通过审核</button>
+			</div>
+			<div class="myRow col-xs-12 col-sm-6 col-md-3 col-md-offset-1">
+				<button type="button" class="btn btn-warning btn-lg" id="deleteComment">删除评论</button>
+			</div>
+		</div><!-- row -->
+		
+		<!--弹窗-->
+		<div class="modal" id="mymodal">
+			<div class="modal-dialog modal-sm"><!--modal-lg-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">关键词</h4>
+					</div>
+					<div class="modal-body" style="text-align:center;">
+						<textarea class="form-control" id="keyword"></textarea>
+						
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" >关闭</button>
+						<button type="button" class="btn btn-primary" onclick="saveButton()">保存</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 		
 	</div>	<!--/.main-->
 
@@ -154,6 +206,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/unslider.js"></script>
+	
+	<script>
+		$(function(){
+			if(sessionStorage.username == null){
+				location.href = "login.action";
+			}else{
+				var userName = sessionStorage.username;
+				$("#USER").html(userName);
+			}
+			
+		});
+	</script>
 	
 	<script>
 		$('#calendar').datepicker({
@@ -173,34 +237,178 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
 		})
 	</script>	
+	
+	<script>
+	
+	var commentNum = 0;
+	
+	$(function(){
+		$.ajax({    
+				type:'post',        
+				url:'/library_web/get_comment.action',    
+				data:{	
+				commentNum : commentNum		
+            },   
+            cache:false,    
+            //dataType:'json',    
+            success:function(data){ 
+            	$.each(eval("(" + data+ ")"), function (index, obj) {
+				    var bookname = obj.bookname;
+            		var comment = obj.comment;
+            		var commentid = obj.commentid;
+            		var realname = obj.realname;
+            		var time = obj.time;
+            		var weid = obj.weid;
+            		var wename = obj.wename;
+         			
+            		updateComment(wename, realname, time, bookname, comment, commentid);
+            		highlight("comment",keyword);
+				});
+            },
+            error:function(){
+            	console.log("请求数据失败");
+            	
+            }    
+        }); 
+	});
+	
+	function updateComment(wename, realname, time, bookname, comment, commentid){
+		$("#wename").html(wename);
+		$("#realname").html(realname);
+		$("#time").html(time);
+		$("#bookname").html(bookname);
+		$("#comment").html(comment);
+		$("#comment").attr("commentid", commentid);
+	}
+	
+	function passComment(){
+		//进入下一条
+		//commentNum++;
+		var commentid = $("#comment").attr("commentid");
+		$.ajax({    
+				type:'post',        
+				url:'/library_web/pass_comment.action',    
+				data:{	
+				commentNum : commentNum,
+				commentid : commentid		
+            },   
+            cache:false,    
+            //dataType:'json',    
+            success:function(data){ 
+            	console.log("请求数据成功" +data);
+            	$.each(eval("(" + data+ ")"), function (index, obj) {
+				    var bookname = obj.bookname;
+            		var comment = obj.comment;
+            		var commentid = obj.commentid;
+            		var realname = obj.realname;
+            		var time = obj.time;
+            		var weid = obj.weid;
+            		var wename = obj.wename;
+         			if(bookname == ""){
+         				alert("没有更多了");
+         			}else{
+         				updateComment(wename, realname, time, bookname, comment, commentid);
+         				highlight("comment",keyword);
+         			}
+            		
+				});
+            },
+            error:function(){
+            	console.log("请求数据失败");
+            	
+            }    
+        }); 
+	}
+	
+	$("#passComment").click(function(){
+		passComment();
+	});
+	</script>
+
 	<script type="text/javascript">
-		$(function() {
-			$('.banner').unslider({
-				speed: 500,               //  The speed to animate each slide (in milliseconds)
-				delay: 3000,              //  The delay between slide animations (in milliseconds)
-				complete: function() {},  //  A function that gets called after every slide animation
-				keys: true,               //  Enable keyboard (left, right) arrow shortcuts
-				dots: true,               //  Display dot navigation
-				fluid: false              //  Support responsive design. May break non-responsive designs
-			});
-
-			$(".unslider-nav").hide();
-
-
-			var prev = $(".prev").html("<em class='glyphicon glyphicon-l glyphicon-chevron-left' ></em>");
-			var next = $(".next").html("<em class='glyphicon glyphicon-l glyphicon-chevron-right'></em>");
-			$("#prev").append(prev);
-			$("#next").append(next);
-			console.log(content);
+		$("#addKeyword").click(function(){
+			console.log(keyword);
+			$("#mymodal").modal("toggle");
+			//keyword = nowKeyWord;
 		});
+	
 	</script>
-	<script type="text/javascript">
-		$('.unslider-arrow').click(function() {
-			var fn = this.className.split(' ')[1];
+	
+	<script> 
+		var keyword = "";
+		//高亮关键词
+		function highlight(idVal, keyword) { 
+			var textbox = document.getElementById(idVal); 
+			if ("" == keyword) return; 
+			//获取所有文字内容 
+			var temp = textbox.innerHTML; 
+			console.log(temp); 
+			var htmlReg = new RegExp("\<.*?\>", "i"); 
+			var arr = new Array(); 
 
-        //  Either do unslider.data('unslider').next() or .prev() depending on the className
-        unslider.data('unslider')[fn]();
-    });
-	</script>
+			//替换HTML标签 
+			for (var i = 0; true; i++) { 
+				//匹配html标签 
+				var tag = htmlReg.exec(temp); 
+				if (tag) { 
+					arr[i] = tag; 
+				} else { 
+					break; 
+				} 
+				temp = temp.replace(tag, "{[(" + i + ")]}"); 
+			} 
+
+
+			// 讲关键词拆分并入数组 
+			words = decodeURIComponent(keyword.replace(/\,/g, ' ')).split(/\s+/); 
+
+			//替换关键字 
+			for (w = 0; w < words.length; w++) { 
+				// 匹配关键词，保留关键词中可以出现的特殊字符 
+				var r = new RegExp("(" + words[w].replace(/[(){}.+*?^$|\\\[\]]/g, "\\$&") + ")", "ig"); 
+				temp = temp.replace(r, "<b style='color:Red;'>$1</b>"); 
+			} 
+
+			//恢复HTML标签 
+			for (var i = 0; i < arr.length; i++) { 
+				temp = temp.replace("{[(" + i + ")]}", arr[i]); 
+			} 
+			textbox.innerHTML = temp; 
+		} 
+		
+		
+		//$("#keyword").html(keyword);
+		keyword = getCookie("keyword");
+		document.getElementById("keyword").value = keyword;
+		
+		function saveButton(){
+			keyword = document.getElementById("keyword").value;
+			setCookie("keyword", keyword, 7);
+			console.log(keyword);
+			location.reload();
+		}
+			
+		function getCookie(c_name){
+			if (document.cookie.length>0){
+				c_start=document.cookie.indexOf(c_name + "=");
+				if (c_start!=-1){
+					c_start=c_start + c_name.length+1;
+					c_end=document.cookie.indexOf(";",c_start);
+				if (c_end==-1) 
+					c_end=document.cookie.length;
+				return unescape(document.cookie.substring(c_start,c_end));//解码
+				}
+			}
+			return "";
+		}
+		
+		function setCookie(c_name, value, expiredays){
+			var exdate=new Date();
+			exdate.setDate(exdate.getDate() + expiredays);
+			document.cookie=c_name+ "=" + escape(value) + ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+		}
+
+	
+	</script> 
   </body>
 </html>

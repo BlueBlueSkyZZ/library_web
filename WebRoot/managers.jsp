@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a class="navbar-brand" href="#"><span>超新星智能图书馆</span>后台管理系统</a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> User <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span id="USER"></span> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
@@ -133,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">管理员列表</h1>
+				<h2 class="page-header">管理员列表</h2>
 			</div>
 		</div><!--/.row-->
 		
@@ -158,6 +158,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 		<table class="dataintable">
+			
+			<!-- <tr>
+				<th colspan="8">
+					管理员列表			
+				</th>
+			</tr> -->
+		
 			<tr>
 				<th>序号</th>
 				<th>账户</th>
@@ -168,25 +175,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th>扫描权限</th>
 				<th>操作</th>
 			</tr>
-			<tr>
-				<td>1</td>
-				<td>1562410226</td>
-				<td>耿元哲</td>
-				<td>中级管理员</td>
-				<td><em class="glyphicon glyphicon-remove" style="color:red;"></em></td>
-				<td><em class="glyphicon glyphicon-ok" style="color:green;"></em></td>
-				<td><em class="glyphicon glyphicon-ok" style="color:green;"></em></td>
-				<td>
-					<a href="#">修改</a>&nbsp;&nbsp;&nbsp;
-					<a href="#">删除</a>
-				</td>
-			</tr>
-
-			<tr>
-				<th colspan="8">
-					管理员列表			
-				</th>
-			</tr>
+			
+			
+			
 		</table>
 
 		<!--弹窗-->
@@ -338,6 +329,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/easypiechart.js"></script>
 <script src="js/easypiechart-data.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
+
+<script>
+		$(function(){
+			if(sessionStorage.username == null){
+				location.href = "login.action";
+			}else{
+				var userName = sessionStorage.username;
+				$("#USER").html(userName);
+			}
+			
+		});
+</script>
+
 <script>
 	$('#calendar').datepicker({
 	});
@@ -584,11 +588,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var parent = $(this).parent().parent();
 			var id = parent.find(".tdId").html();
 			console.log(id);
-			//console.log($(this).parent().parent().html());
-			nowChangeId = id;
+			
+			nowDeleteId = id;
 			$.ajax({    
 				type:'post',        
-				url:'/library_web/get_single_manager.action',    
+				url:'/library_web/delete_manager.action',    
 				data:{	
 					id : id
             	},   
@@ -596,26 +600,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	//dataType:'json',    
             	success:function(data){ 
             		console.log("请求数据成功" + data);
-	            	$.each(eval("(" + data+ ")"), function (index, obj) {
-					    var id = obj.id;
-	            		var name = obj.name;
-	            		var rank = obj.rank;
-	            		var manage_admin = obj.manage_admin;
-	            		var manage_data = obj.manage_data;
-	            		var manage_scan = obj.manage_scan;
-	            		var tel = obj.tel;
-	            		var address = obj.address;
-	            		var account = obj.account;
-	         			var password = obj.password;
-	         			
-	         			$("#nowAccount").val(account);
-	         			$("#nowPassword").val(password);
-	         			$("#nowName").val(name);
-	         			$("#nowAddress").val(address);
-	         			$("#nowTel").val(tel);
-	         			$("#nowLevel").html(rank);	
-					});
-					$("#mymodal4").modal("toggle");
+	            	location.reload();
 	            },
 	            error:function(){
 	            	console.log("请求数据失败");

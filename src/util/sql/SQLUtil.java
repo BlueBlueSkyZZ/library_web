@@ -8,13 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entity.user.BorrowBook;
+import entity.user.BorrowedBook;
 import entity.book.BookDetailInfo;
 import entity.manager.ManagerInfo;
+import entity.pub.Comment;
+import entity.pub.Notice;
 import entity.user.UserInfo;
 
 public class SQLUtil {
 
 	
+	//书籍管理
 	/**
 	 * 获取所有图书名称
 	 * @return 返回书名List
@@ -104,6 +109,219 @@ public class SQLUtil {
 	}
 	
 	/**
+	 * 首页分页加载图书
+	 * @param offset 偏移量
+	 * @param showNum 搜寻数目
+	 * @param category 搜寻类别
+	 * @return
+	 */
+	public static List<BookDetailInfo> getLimitBooks(int offset, int showNum, String category){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<BookDetailInfo> books = new ArrayList<BookDetailInfo>();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String require = " WHERE 1 = 1 ";
+			if(!category.equals("")){
+				require = require + " AND category LIKE '%" + category + "%' " ; 
+			}
+			String sql = "SELECT * FROM book " +
+					"" + require + 
+					" LIMIT " + offset + "," + showNum;
+			
+			//System.out.println(sql);		
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				
+				BookDetailInfo bookDetailInfo = new BookDetailInfo();
+				
+				bookDetailInfo.setBookno(rs.getString("bookno"));
+				bookDetailInfo.setIsbn(rs.getString("isbn"));
+				bookDetailInfo.setBookname(rs.getString("bookname"));
+				bookDetailInfo.setCategory(rs.getString("category"));
+				bookDetailInfo.setPublisher(rs.getString("publisher"));
+				bookDetailInfo.setVersion(rs.getString("version"));
+				bookDetailInfo.setBookimg(rs.getString("bookimg"));
+				bookDetailInfo.setOutline(rs.getString("outline"));
+				bookDetailInfo.setBookAbstract(rs.getString("abstract"));
+				bookDetailInfo.setGuide(rs.getString("guide"));
+				bookDetailInfo.setLeftnum(rs.getString("leftnum"));
+				bookDetailInfo.setPrice(rs.getString("price"));
+				bookDetailInfo.setAuthor(rs.getString("author"));
+				bookDetailInfo.setReadingnum(rs.getString("readingnum"));
+				bookDetailInfo.setScore(rs.getString("score"));
+				
+				books.add(bookDetailInfo);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return books;
+	}
+	
+	/**
+	 * 搜索图书
+	 * @param key
+	 * @return
+	 */
+	public static List<BookDetailInfo> getSearchBooks(String key){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<BookDetailInfo> books = new ArrayList<BookDetailInfo>();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String require = " WHERE 1 = 1 ";
+			if(!key.equals("")){
+				require = require + " AND bookname LIKE '%" + key + "%' " ; 
+			}
+			String sql = "SELECT * FROM book " +
+					 require ;
+			
+			//System.out.println(sql);		
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				
+				BookDetailInfo bookDetailInfo = new BookDetailInfo();
+				
+				bookDetailInfo.setBookno(rs.getString("bookno"));
+				bookDetailInfo.setIsbn(rs.getString("isbn"));
+				bookDetailInfo.setBookname(rs.getString("bookname"));
+				bookDetailInfo.setCategory(rs.getString("category"));
+				bookDetailInfo.setPublisher(rs.getString("publisher"));
+				bookDetailInfo.setVersion(rs.getString("version"));
+				bookDetailInfo.setBookimg(rs.getString("bookimg"));
+				bookDetailInfo.setOutline(rs.getString("outline"));
+				bookDetailInfo.setBookAbstract(rs.getString("abstract"));
+				bookDetailInfo.setGuide(rs.getString("guide"));
+				bookDetailInfo.setLeftnum(rs.getString("leftnum"));
+				bookDetailInfo.setPrice(rs.getString("price"));
+				bookDetailInfo.setAuthor(rs.getString("author"));
+				bookDetailInfo.setReadingnum(rs.getString("readingnum"));
+				bookDetailInfo.setScore(rs.getString("score"));
+				
+				books.add(bookDetailInfo);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return books;
+	}
+	/**
+	 * 添加新的图书
+	 * @param isbn
+	 * @param bookname
+	 * @param category
+	 * @param publisher
+	 * @param version
+	 * @param bookimg
+	 * @param outline
+	 * @param bookAbstract
+	 * @param guide
+	 * @param leftnum
+	 * @param price
+	 * @param author
+	 */
+	public static void addNewBook(String isbn, String bookname, String category, String publisher, String version,
+			String bookimg, String outline, String bookAbstract, String guide, String leftnum, String price, String author){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "INSERT INTO book (isbn, bookname, category, publisher, version, bookimg, outline, abstract, guide, leftnum, price, author, readingnum, score) " +
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '0', '0')";// sql语句注册用户
+			stmt = conn.prepareStatement(sql);// 创建连接对象,使用PreparedStatement方法增加可维护性
+			stmt.setString(1, isbn);
+			stmt.setString(2, bookname);
+			stmt.setString(3, category);
+			stmt.setString(4, publisher);
+			stmt.setString(5, version);
+			stmt.setString(6, bookimg);
+			stmt.setString(7, outline);
+			stmt.setString(8, bookAbstract);
+			stmt.setString(9, guide);
+			stmt.setString(10, leftnum);
+			stmt.setString(11, price);
+			stmt.setString(12, author);
+			int i = stmt.executeUpdate();
+			System.out.println("添加了" + i + "行");
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+	}
+	
+	/**
+	 * 获取单本图书信息
+	 * @param bookno
+	 * @return
+	 */
+	public static BookDetailInfo getOneBook(String bookno){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		BookDetailInfo book = new BookDetailInfo();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			
+			String sql = "SELECT * FROM book WHERE bookno = '" + bookno + "'";
+					
+			//System.out.println(sql);		
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				
+				book.setBookno(rs.getString("bookno"));
+				book.setIsbn(rs.getString("isbn"));
+				book.setBookname(rs.getString("bookname"));
+				book.setCategory(rs.getString("category"));
+				book.setPublisher(rs.getString("publisher"));
+				book.setVersion(rs.getString("version"));
+				book.setBookimg(rs.getString("bookimg"));
+				book.setOutline(rs.getString("outline"));
+				book.setBookAbstract(rs.getString("abstract"));
+				book.setGuide(rs.getString("guide"));
+				book.setLeftnum(rs.getString("leftnum"));
+				book.setPrice(rs.getString("price"));
+				book.setAuthor(rs.getString("author"));
+				book.setReadingnum(rs.getString("readingnum"));
+				book.setScore(rs.getString("score"));
+				
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return book;
+		
+	}
+	
+	//用户管理
+	/**
 	 * 获取所有用户信息
 	 * @return 用户信息集List
 	 */
@@ -141,6 +359,164 @@ public class SQLUtil {
 		return users;
 	}
 	
+	/**
+	 * 查询用户正在借阅的书籍
+	 * @param weid
+	 * @return 书籍集合
+	 */
+	public static List<BorrowBook> getBorrowing(String weid){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<BorrowBook> books = new ArrayList<BorrowBook>();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "SELECT book.bookimg, book.bookname, borrow.borrowtime FROM book, borrow" +
+					" WHERE 1 = 1 " +
+					" AND borrow.weid = '" + weid + "'" + 
+					" AND book.bookno = borrow.bookno " + 
+					" AND borrow.returntime IS NULL";
+			//System.out.println(sql);
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				BorrowBook book = new BorrowBook();
+				
+				book.setBookImg(rs.getString(1));
+				book.setBookName(rs.getString(2));
+				book.setBorrowTime(rs.getString(3));
+				
+				books.add(book);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return books;
+		
+	}
+	
+	/**
+	 * 查询用户已经借阅的书籍
+	 * @param weid
+	 * @return
+	 */
+	public static List<BorrowedBook> getBorrowed(String weid){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<BorrowedBook> books = new ArrayList<BorrowedBook>();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "SELECT book.bookimg, book.bookname, borrow.borrowtime, borrow.returntime FROM book, borrow" +
+					" WHERE 1 = 1 " +
+					" AND borrow.weid = '" + weid + "'" + 
+					" AND book.bookno = borrow.bookno " + 
+					" AND borrow.returntime IS NOT NULL";
+			//System.out.println(sql);
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				BorrowedBook book = new BorrowedBook();
+				
+				book.setBookImg(rs.getString(1));
+				book.setBookName(rs.getString(2));
+				book.setBorrowTime(rs.getString(3));
+				book.setReturnTime(rs.getString(4));
+				
+				books.add(book);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return books;
+	}
+	
+	/**
+	 * 获取所有借阅的书籍包括在借和已经归还的
+	 * @param weid
+	 * @return
+	 */
+	public static List<BorrowedBook> getAllBorrow(String weid){
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<BorrowedBook> books = new ArrayList<BorrowedBook>();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "SELECT book.bookimg, book.bookname, borrow.borrowtime, borrow.returntime FROM book, borrow" +
+					" WHERE 1 = 1 " +
+					" AND borrow.weid = '" + weid + "'" + 
+					" AND book.bookno = borrow.bookno " +
+					" ORDER BY borrow.returntime";
+			//System.out.println(sql);
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				BorrowedBook book = new BorrowedBook();
+				
+				book.setBookImg(rs.getString(1));
+				book.setBookName(rs.getString(2));
+				book.setBorrowTime(rs.getString(3));
+				book.setReturnTime(rs.getString(4));
+				
+				books.add(book);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return books;
+	}
+	
+	/**
+	 * 获取所有订单号
+	 * @return
+	 */
+	public static List<String> getAllOrderId(){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<String> orders = new ArrayList<String>();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "SELECT subscribenum FROM paylist";
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				orders.add(rs.getString(1));
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return orders;
+	}
+	
+	
+	//管理员管理
 	/**
 	 * 获取所有管理员信息
 	 * @return 管理员信息集List
@@ -309,6 +685,31 @@ public class SQLUtil {
 	}
 	
 	/**
+	 * 删除管理员
+	 * @param id
+	 */
+	public static void deteleManager(String id){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "DELETE FROM admin WHERE id = '" + id + "'";
+			stmt = conn.prepareStatement(sql);// 创建连接对象,使用PreparedStatement方法增加可维护性
+			
+			int i = stmt.executeUpdate();
+			System.out.println("成功删除了" + i + "行");
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+	}
+	
+	
+	/**
 	 * 根据rank判断权限 
 	 * @param rank
 	 * @return Map集合
@@ -330,6 +731,167 @@ public class SQLUtil {
 			map.put("manage_admin", "Y");
 		}
 		return map;
+	}
+	
+	//公众号管理
+	/**
+	 * 获取评论
+	 * @param num
+	 * @return
+	 */
+	public static Comment getComment(String num){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		Comment comment = new Comment();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "select bookcomment.comment, bookcomment.time, " +
+					"user.weid, user.wename, user.username, bookcomment.commentid, book.bookname " +
+					"from bookcomment,user,book " +
+					"where bookcomment.status != 'Y' and bookcomment.weid = user.weid and book.bookno = bookcomment.bookno " +
+					"limit " + num + ",1;";
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				comment = new Comment();
+				comment.setComment(rs.getString(1));
+				comment.setTime(rs.getString(2));
+				comment.setWeid(rs.getString(3));
+				comment.setWename(rs.getString(4));
+				comment.setRealname(rs.getString(5));
+				comment.setCommentid(rs.getString(6));
+				comment.setBookname(rs.getString(7));
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+	
+		return comment;
+	}
+	
+	/**
+	 * 审核评论通过
+	 * @param commentid
+	 */
+	public static void updateComment(String commentid){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "update bookcomment set status = 'Y' " +
+					"where commentid = '" + commentid + "';";
+			stmt = conn.prepareStatement(sql);// 创建连接对象,使用PreparedStatement方法增加可维护性
+			
+			int i = stmt.executeUpdate();
+			System.out.println("成功修改了" + i + "行");
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+	}
+	
+	/**
+	 * 删除评论
+	 * @param commentid
+	 */
+	public static void deleteComment(String commentid){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "delete from bookcomment " +
+					"where commentid = '" + commentid + "';";
+			stmt = conn.prepareStatement(sql);// 创建连接对象,使用PreparedStatement方法增加可维护性
+			
+			int i = stmt.executeUpdate();
+			System.out.println("成功删除了" + i + "行");
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+	}
+	
+	/**
+	 * 获取公告
+	 * @param notice_id
+	 * @return
+	 */
+	public static Notice getNotice(String notice_id){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		Notice notice = new Notice();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "SELECT * FROM announcement WHERE anno_id = '" + notice_id + "'";
+			
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				
+				notice.setAnno_id(notice_id);
+				notice.setCategory(rs.getString("category"));
+				notice.setContent(rs.getString("content"));
+				notice.setTitle(rs.getString("title"));
+				notice.setTime(rs.getString("time"));
+				notice.setImg(rs.getString("img"));
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return notice;
+	}
+	
+	/**
+	 * 更新公告
+	 * @param notice_id
+	 * @param time
+	 * @param content
+	 * @param img
+	 */
+	public static void updateNotice(String category, String title, String notice_id, String time, String content, String img){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "UPDATE announcement SET category=?, title=? ,time=?, content=?, img=?" + 
+					"WHERE anno_id = '" + notice_id + "'";// sql语句注册用户
+			stmt = conn.prepareStatement(sql);// 创建连接对象,使用PreparedStatement方法增加可维护性
+			stmt.setString(1, category);
+			stmt.setString(2, title);
+			stmt.setString(3, time);
+			stmt.setString(4, content);
+			stmt.setString(5, img);
+			
+			int i = stmt.executeUpdate();
+			System.out.println("成功修改了" + i + "行");
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
 	}
 	
 	/**
