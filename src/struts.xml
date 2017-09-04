@@ -118,6 +118,18 @@
 		<action name="delete_comment" class="action.pub.CommentAction" method="deleteComment">
 		</action>
 		
+		<!-- 自动审核评论 -->
+		<action name="auto_judge" class="action.pub.CommentAction" method="autoJudge">
+		</action>
+		
+		<!-- 获取审核过的评论 -->
+		<action name="get_history_comment" class="action.pub.CommentAction" method="getHistoryComment">
+		</action>
+		
+		<!-- 评论状态恢复 -->
+		<action name="return_comment" class="action.pub.CommentAction" method="returnComment">
+		</action>
+		
 		<!-- 获取公告 -->
 		<action name="get_notice" class="action.pub.NoticeAction">
 		</action>

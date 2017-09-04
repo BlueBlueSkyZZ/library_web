@@ -735,7 +735,7 @@ public class SQLUtil {
 	
 	//公众号管理
 	/**
-	 * 获取评论
+	 * 获取单个评论
 	 * @param num
 	 * @return
 	 */
@@ -777,6 +777,48 @@ public class SQLUtil {
 	}
 	
 	/**
+	 * 获取所有未管理的评论
+	 * @return
+	 */
+	public static List<Comment> getAllComment(){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<Comment> comments = new ArrayList<Comment>();
+		//Comment comment = new Comment();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "select bookcomment.comment, bookcomment.time, " +
+					"user.weid, user.wename, user.username, bookcomment.commentid, book.bookname " +
+					"from bookcomment,user,book " +
+					"where bookcomment.status != 'Y' and bookcomment.weid = user.weid and book.bookno = bookcomment.bookno ";
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				Comment comment = new Comment();
+				comment.setComment(rs.getString(1));
+				comment.setTime(rs.getString(2));
+				comment.setWeid(rs.getString(3));
+				comment.setWename(rs.getString(4));
+				comment.setRealname(rs.getString(5));
+				comment.setCommentid(rs.getString(6));
+				comment.setBookname(rs.getString(7));
+				
+				comments.add(comment);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return comments;
+	}
+	
+	/**
 	 * 审核评论通过
 	 * @param commentid
 	 */
@@ -787,6 +829,31 @@ public class SQLUtil {
 		{
 			conn = DBHelper.getConnection();// 获得连接对象
 			String sql = "update bookcomment set status = 'Y' " +
+					"where commentid = '" + commentid + "';";
+			stmt = conn.prepareStatement(sql);// 创建连接对象,使用PreparedStatement方法增加可维护性
+			
+			int i = stmt.executeUpdate();
+			System.out.println("成功修改了" + i + "行");
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+	}
+	
+	/**
+	 * 将评论重置
+	 * @param commentid
+	 */
+	public static void return_Comment(String commentid){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "update bookcomment set status = '' " +
 					"where commentid = '" + commentid + "';";
 			stmt = conn.prepareStatement(sql);// 创建连接对象,使用PreparedStatement方法增加可维护性
 			
@@ -824,6 +891,49 @@ public class SQLUtil {
 		finally{
 			release(stmt);
 		}
+	}
+	
+	/**
+	 * 获取已经审核的评论
+	 * @return
+	 */
+	public static List<Comment> getHistoryComment(){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<Comment> comments = new ArrayList<Comment>();
+		//Comment comment = new Comment();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "select bookcomment.comment, bookcomment.time, " +
+					"user.weid, user.wename, user.username, bookcomment.commentid, book.bookname " +
+					"from bookcomment,user,book " +
+					"where bookcomment.status = 'Y' and bookcomment.weid = user.weid and book.bookno = bookcomment.bookno " +
+					"LIMIT 0, 5";
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				//创建对象
+				Comment comment = new Comment();
+				comment.setComment(rs.getString(1));
+				comment.setTime(rs.getString(2));
+				comment.setWeid(rs.getString(3));
+				comment.setWename(rs.getString(4));
+				comment.setRealname(rs.getString(5));
+				comment.setCommentid(rs.getString(6));
+				comment.setBookname(rs.getString(7));
+				
+				comments.add(comment);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return comments;
 	}
 	
 	/**

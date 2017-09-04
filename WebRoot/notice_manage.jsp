@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			border-left-width: 0px;
 			border-bottom: #787878 1px solid;
 			background-color: #F1F4F7;
-			width: 20%;
+			width: 100%;
 		}
 		
 		.nounderline{
@@ -130,22 +130,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
      	<div class="row">
      		
-     		
-     		
-     		<div class="col-lg-8 col-lg-offset-3">
+     		<div class="col-sm-12">
+     			<button type="button" class="btn btn-primary" id="announcement" style="margin-left:5%;">
+     				<em class="glyphicon glyphicon-send">&nbsp;</em>发布
+     			</button>
+     		</div>
+     	
+     		<div class="col-sm-6">
      			<div style="font-size:20px;" class="col-sm-12">
-     				<span>标题：</span>
-     				<input type="text" value="闭馆通知" class="nounderline" id="title"/>
-     				<button type="button" class="btn btn-success" id="announcement" style="margin-left:15%;">发布</button>
-     			</div>
-     			<div class="col-sm-12">
-     				<span>发布时间：</span>
-     				<input type="text" value="2017-07-01" class="nounderline" id="time"/>
-     				
-     			</div>
-     			<div class="col-sm-12" style="margin-top:5px;">
-     				<span>通知类型：</span>
-     				<span class="btn-group">
+	     			<span>标题：</span>
+	     			<input type="text" value="闭馆通知" class="underlineInput" id="title"/>
+	     				
+	     		</div>
+	     		<div class="col-sm-12">
+	     			<span>发布时间：</span>
+	     			<input type="text" value="2017-07-01" class="underlineInput" id="time"/>
+	     				
+	     		</div>
+	     		<div class="col-sm-12" style="margin-top:5px;">
+	     			<span>通知类型：</span>
+	     			<span class="btn-group">
 						<button type="button" class="btn btn-default dropdown-toggle" 
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectCate">
 							<span id="selectedCate1">图书馆安排</span>
@@ -155,28 +159,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<li><a href="javascript:void(0)" class="category">图书馆安排</a></li>
 							<li><a href="javascript:void(0)" class="category">借书须知</a></li>
 							<li><a href="javascript:void(0)" class="category">好书推荐</a></li>
-						
 						</ul>
-	     			</span>
-	     			<button type="button" class="btn btn-info" onclick="image.click()" style="margin-left:34%;">替换图片</button>
-     			<div class="col-sm-12">
-     				<img id="noticeImg" src="http://118.89.198.254/library/image/announcement/1.jpg">
+		     		</span>
+		     			
+		     		<div class="col-sm-12">
+		     			<span>公告内容：</span>
+		     			<span style="font-size:16px;">
+		     				
+			     			<textarea rows="10" cols="61" style="background-color: #F1F4F7;" id="content"></textarea>
+			     			<!--  <input type="text" value="清明放假" class="nounderline" style="width:500px;height:100px;"/>-->
+			     		</span>
+		     		</div>
+	     		</div>
+     		</div>	
+     	
+     		<div class="col-sm-6" style="margin-top:11%;">
+     			<button type="button" class="btn btn-primary" onclick="image.click()" style="margin-left:34%;">替换图片</button>
+	     		<div class="col-sm-12">
+	     			<img id="noticeImg" src="http://118.89.198.254/library/image/announcement/1.jpg">
 					<form action="#" enctype="multipart/form-data" method="post" id="userForm">
 						<input type="file" id="image" name="image" style="visibility: hidden; position: absolute;">
 					</form>
-     			</div>
-     			<div class="col-sm-12" style="font-size:16px;">
-     				<span>内容：</span>
-     			</div>
-     			
-     			<div class="col-sm-12" style="font-size:16px;">
-     				
-     				<textarea rows="2" cols="55" style="background-color: #F1F4F7;" id="content"></textarea>
-     				<!--  <input type="text" value="清明放假" class="nounderline" style="width:500px;height:100px;"/>-->
-     			</div>
-     			
+	     		</div>
      		</div>
-     	</div>
+     			
+     		
+     	
 		
 		<div class="col-lg-12" style="margin-top:10px;margin-left:45%;">	
 				<ul class="pagination" style="margin:0 auto;">

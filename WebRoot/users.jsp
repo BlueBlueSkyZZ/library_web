@@ -43,6 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			font-size: 16px;
 			color: #808080;
 			margin-top: 2%;
+			display:none;
 		}
 		
 		.myUserWeId{
@@ -213,6 +214,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div id="borrowPeople" style="width:90%;height:45%;margin-left:auto;margin-right:auto;"></div>
 		</div>
 		
+		<hr style="color:#000000;width:2px;">
+		
 		<div class="row col-lg-12">
 			<span style="font-size:25px;">
 				注册用户
@@ -366,7 +369,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function addUserDom(headimgurl, nickname, idCard, realName, tel, openid){
 		//节点属性
 		var outDom = $("<div></div>");
-		outDom.addClass("col-xs-12 col-sm-6 col-lg-3");
+		outDom.addClass("col-xs-12 col-sm-6 col-lg-2");
 		var myUser = $("<div></div>");
 		myUser.addClass("myUser");
 		myUser.attr("weid", openid);

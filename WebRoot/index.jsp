@@ -22,39 +22,39 @@
 		text-align: center;
 		margin: 0 auto;
 		margin-top: 12%;
-		width: 80%;
+		width: 90%;
 	}
 	
 	.myBookImg {
-		width: 61.8%;
-		height: 38.2%;
+		width: 60%;
+		height: 30%;
 		margin: 5%;
 	}
 	
 	.myBookName {
-		font-size: 22px;
+		font-size: 8px;
 		color: #808080;
 		margin-top: 1%;
 	}
 	
 	.myBookAuthor {
-		font-size: 16px;
+		font-size: 6px;
 		color: #808080;
 		margin-top: 2%;
 	}
 	
 	.myBookPublisher {
-		font-size: 16px;
+		font-size: 6px;
 		color: #808080;
 		margin-top: 2%;
 	}
 	
 	#wrapper {
 		height: 450px;
-		width: 95%;
+		width: 75%;
 		border: solid 1px #8080c0;
 		border-radius: 25px;
-		box-shadow: 6px 6px 3px #888888;
+		box-shadow: 3px 3px 1px #888888;
 		margin: 0 auto;
 		margin-bottom: 20px;
 	}
@@ -214,7 +214,7 @@
 								<em class="glyphicon glyphicon-plus glyphicon-l"></em>
 							</div>
 						</a>
-						<div class="col-sm-8 widget-right">
+						<div class="col-sm-8 widget-right" style="height:10%;">
 							<div class="large">添加</div>
 							<div class="text-muted">点击添加图书</div>
 						</div>
@@ -254,17 +254,16 @@
 						<li><a href="javascript:void(0)" class="category1">全部</a></li>
 					</ul>
 				</div>
-				
-				
+
 			</div>
 
-			<div class="col-xs-9 col-sm-9 col-xs-offset-1 col-sm-offset-1">
-				<button type="button" class="btn btn-primary"  onclick="upexcel.click()">导入图书</button>
+			<div class="col-xs-8 col-sm-8 col-xs-8-offset-1 col-sm-offset-1">
+				<button type="button" class="btn btn-primary pull-right"  onclick="upexcel.click()">导入图书</button>
 				<form action="#" enctype="multipart/form-data" method="post" id="uploadExcel" style="visibility: hidden; position: absolute;">
 					<input type="file" id="upexcel" name="excelFile" ><!--onchange="uploadFile()"-->
 				</form>
 			</div>
-			<div class="col-xs-2 col-sm-2">
+			<div class="col-xs-3 col-sm-3">
 				<button type="button" class="btn btn-info" onclick="outputExcel.click()">导出图书</button>
 			</div>
 				
@@ -280,14 +279,14 @@
 		</div><!--row-->
 		
 		<div class="row">
-			<div class="col-xs-12 col-md-5 col-md-offset-1" style="margin-top:45%;">
+			<div class="col-xs-12" style="margin-top:0%;margin-left:77%;">
 				<h4 style="font-weight:bold;">搜索类别热度</h4>
 				<table class="hot_category">
 					
 				</table>
 			</div>
 			
-			<div class="col-xs-12 col-md-6" style="margin-top:45%;">
+			<div class="col-xs-12" style="margin-top:5%;margin-left:77%;">
 				<h4 style="font-weight:bold;">搜索书籍热度</h4>
 				<table class="hot_book">
 					
@@ -755,6 +754,7 @@
 			bookImg.attr("onerror", "javascript:this.src='http://apis.juhe.cn/goodbook/img/98ca508f94ea736aa904708092bc838b.jpg'");
 			bookImg.addClass("myBookImg");
 			var myBookName = $("<div></div>");
+			myBookName.addClass("myBookName");
 			myBookName.html(bookname);
 			var myBookAuthor = $("<div></div>");
 			myBookAuthor.addClass("myBookAuthor");

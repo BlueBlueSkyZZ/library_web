@@ -36,15 +36,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		#commentBox{
 			border:2px solid;
 			border-radius:25px;
-			box-shadow: 10px 10px 5px #888888;
-			height : 61.8%;
+			box-shadow: 3px 3px 1px #888888;
+			height : 75%;
+			width : 100%;
 			padding-top : 20px;
 			padding-left : 50px;
-			font-size : 20px;
+			font-size : 15px;
 		}
 		
 		.myRow{
 			margin-top:1%;
+		}
+		
+		#comHistory{
+			border:solid #000 1px;
+			border-radius:25px;
+			margin-top:20px;
+			margin-left:20px;
+			width:70%;
+		}
+		
+		.comHistory{
+			font-size:15px;
+		}
+		
+		.aHis{
+			float:right;
 		}
 	</style>
   </head>
@@ -128,36 +145,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div><!--/.row-->
 
+		<div class="col-xs-12 col-sm-6 col-md-3 col-md-offset-1">
+			<button type="button" class="btn btn-primary" id="passComment">通过审核</button>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-2">
+			<button type="button" class="btn btn-warning" id="deleteComment">删除评论</button>
+		</div>
 		
-		
-		
-		
-		<div class="myRow">
-			<div class="col-sm-2">
-				<button type="button" class="btn btn-info" id="addKeyword">添加关键词</button>
-			</div>
+		<div class="col-xs-12 col-sm-6 col-md-2 col-md-offset-1">
+			<button type="button" class="btn btn-primary" id="addKeyword">添加关键词</button>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-2">
+			<button type="button" class="btn btn-primary" id="auto_judge">自动审批</button>
+		</div>		
 				
-			<div class="col-sm-8" id="commentBox">
-				<div class="myRow col-sm-12 col-md-6">
+			
+		
+		
+		<div class="myRow col-sm-6">
+			
+				
+			<div class="col-sm-10" id="commentBox">
+				<div class="myRow col-sm-12 col-md-12">
 					微信昵称：
-					<span id="wename">你好</span>
+					<span id="wename">无</span>
 				</div>
-				<div class="myRow col-sm-12 col-md-6">
+				<div class="myRow col-sm-12 col-md-12">
 					真实姓名：
-					<span id="realname">你好</span>
+					<span id="realname">无</span>
 				</div>
-				<div class="myRow col-sm-12 col-md-6">
+				<div class="myRow col-sm-12 col-md-12">
 					评论时间：
-					<span id="time">你好</span>
+					<span id="time">无</span>
 				</div>
-				<div class="myRow col-sm-12 col-md-6">
+				<div class="myRow col-sm-12 col-md-12">
 					评论书名：
-					<span id="bookname">你好</span>
+					<span id="bookname">无</span>
 				</div>
-				<div class="myRow col-sm-12 col-md-6">
+				<div class="myRow col-sm-12 col-md-12">
 					<span>评论内容：</span>
 					<span>
-						<p class="form-control" style="width:200%;height:200px;font-size:20px;color:black;" id="comment" >你好</p> 
+						<p class="form-control" style="width:100%;height:250px;font-size:20px;color:black;" id="comment" >无</p> 
 						
 					</span>	
 				</div>
@@ -165,12 +193,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div><!-- row -->
 		
-		<div class="myRow">
-			<div class="myRow col-xs-12 col-sm-6 col-md-3 col-md-offset-3">
-				<button type="button" class="btn btn-primary btn-lg" id="passComment">通过审核</button>
-			</div>
-			<div class="myRow col-xs-12 col-sm-6 col-md-3 col-md-offset-1">
-				<button type="button" class="btn btn-warning btn-lg" id="deleteComment">删除评论</button>
+		<div class="myRow col-sm-6">
+			
+			
+			<div class="col-xs-4 col-xs-offset-2" id="comHistory">
+				<div class="col-xs-12">
+					<h3>最近五条</h3>
+				</div>
 			</div>
 		</div><!-- row -->
 		
@@ -261,8 +290,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             		var weid = obj.weid;
             		var wename = obj.wename;
          			
-            		updateComment(wename, realname, time, bookname, comment, commentid);
+         			updateComment(wename, realname, time, bookname, comment, commentid);
             		highlight("comment",keyword);
+
+            		
 				});
             },
             error:function(){
@@ -305,7 +336,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             		var weid = obj.weid;
             		var wename = obj.wename;
          			if(bookname == ""){
-         				alert("没有更多了");
+         				alert("审核完毕，没有更多了");
          			}else{
          				updateComment(wename, realname, time, bookname, comment, commentid);
          				highlight("comment",keyword);
@@ -408,7 +439,101 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			document.cookie=c_name+ "=" + escape(value) + ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
 		}
 
-	
 	</script> 
+	
+	<script>
+		$(function(){
+			//自动审核
+			var keyword = $("#keyword").val();
+			$("#auto_judge").click(function(){
+				console.log("点击了" + keyword);
+				$.ajax({    
+					type:'post',        
+					url:'/library_web/auto_judge.action',    
+					data:{	
+						keyword:keyword	
+		            },   
+		            cache:false,    
+		            //dataType:'json',    
+		            success:function(data){ 
+		            	alert("成功过滤了" + data + "条评论");
+		            	location.reload();
+		            },
+		            error:function(){
+		            	console.log("请求数据失败");
+		            	
+		            }    
+		        }); 
+			});
+		});
+		
+	</script>
+	
+	<script>
+		$(function(){
+			//获取已经评论的信息
+			$.ajax({    
+				type:'post',        
+				url:'/library_web/get_history_comment.action',    
+				data:{	
+				},   
+				cache:false,    
+				//dataType:'json',    
+				success:function(data){ 
+					console.log(data);
+		            $.each(eval("(" + data+ ")"), function (index, obj) {
+		            	addHistoryDom((index+1) + "." + obj.comment, obj.commentid);
+		            });
+				},
+				error:function(){
+					console.log("请求数据失败");
+				}    
+			}); 
+			
+			function addHistoryDom(comment, commentId){
+				var spanCom = $("<span></span>");
+				spanCom.addClass("comHistory");
+				spanCom.html(comment);
+				var hr = $("<hr>");
+				//var br = $("<br>");
+				var a = $("<a></a>");
+				a.html("重新审批");
+				a.attr("href", "javascript:void(0)");
+				a.addClass("aHis");
+				a.attr("commentid", commentId);
+				$("#comHistory").append(spanCom);
+				//$("#comHistory").append(br);
+				$("#comHistory").append(a);
+				$("#comHistory").append(hr);
+				
+			}
+			
+			$("#comHistory").on("mousedown", ".aHis", function(event){
+				
+				var commentid = $(this).attr("commentid");
+			
+				if(event.which == "1"){
+					$.ajax({    
+						type:'post',        
+						url:'/library_web/return_comment.action',    
+						data:{	
+							commentid : commentid
+						},   
+						cache:false,    
+						//dataType:'json',    
+						success:function(data){ 
+							location.reload();
+				            
+						},
+						error:function(){
+							console.log("请求数据失败");
+						}    
+					}); 
+					console.log($(this).attr("commentid"));
+				}
+				
+			});
+		});
+	</script>
   </body>
 </html>
