@@ -145,6 +145,14 @@
 		<!-- 更新公告 -->
 		<action name="update_notice" class="action.pub.NoticeAction" method="updateNotice">
 		</action>
+		
+		<!-- 获取预订 -->
+		<action name="get_order" class="action.pub.ReserveAction">
+		</action>
+		
+		<!-- 发送提醒 -->
+		<action name="send_remind" class="action.pub.ReserveAction" method="sendRemind">
+		</action>
 	<!-- 公众号管理 -->
 	
 	

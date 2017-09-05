@@ -953,6 +953,12 @@
 				
 		});
 		
+			$(".category3").click(function(){
+				//console.log($(this).html() + "3");
+				$("#selectedCate3").html($(this).html());
+			});
+			
+		
 			$("#saveButton2").click(function(){
 				save_book_change();
 			});
@@ -1021,7 +1027,7 @@
 			         			$("#nowOutline").val(outline);
 							});
 		            	};
-		            	
+		            	locaction
 						//$("#mymodal4").modal("toggle");
 		            },
 		            error:function(){

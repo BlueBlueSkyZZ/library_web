@@ -14,6 +14,7 @@ import entity.book.BookDetailInfo;
 import entity.manager.ManagerInfo;
 import entity.pub.Comment;
 import entity.pub.Notice;
+import entity.pub.Order;
 import entity.user.UserInfo;
 
 public class SQLUtil {
@@ -515,6 +516,78 @@ public class SQLUtil {
 		return orders;
 	}
 	
+	/**
+	 * 获取所有订单具体信息
+	 * @return
+	 */
+	public static List<Order> getOrder(){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		List<Order> orders = new ArrayList<Order>();
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			String sql = "select reserve.weid, reserve.bookno, reserve.reservetime, " +
+					"user.wename, user.username, book.bookname, book.leftnum, book.bookimg " +
+					"from reserve,user,book " +
+					"where reserve.status != 'Y' and reserve.weid = user.weid and " +
+					"book.bookno = reserve.bookno and book.leftnum > 0 " +
+					"order by reserve.reservetime ;";
+			stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				Order order = new Order();
+				order.setWeid(rs.getString(1));
+				order.setBookno(rs.getString(2));
+				order.setReservetime(rs.getString(3));
+				order.setWename(rs.getString(4));
+				order.setRealname(rs.getString(5));
+				order.setBookname(rs.getString(6));
+				order.setLeftnum(rs.getString(7));
+				order.setBookimg(rs.getString(8));
+				orders.add(order);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+		return orders;
+	}
+	
+	/**
+	 * 发送预订提醒完成
+	 * @param bookno
+	 * @param weid
+	 */
+	public static void permitReserve(String bookno,String weid){
+		Connection conn = null;
+		PreparedStatement stmt = null;// 连接对象
+		try
+		{
+			conn = DBHelper.getConnection();// 获得连接对象
+			
+			String sql = "update reserve set status = 'Y' " +
+					"where weid = '" + weid + "' and bookno = '" + bookno + "';";
+			stmt = conn.prepareStatement(sql);
+			int i = stmt.executeUpdate();
+			System.out.println("成功通过了" + i + "个预订");
+			sql = "update book set leftnum = leftnum-1 " +
+			"where bookno = '" + bookno + "';";
+			stmt = conn.prepareStatement(sql);
+			int j = stmt.executeUpdate();
+			System.out.println("藏书量减" + j );
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			release(stmt);
+		}
+	}
 	
 	//管理员管理
 	/**

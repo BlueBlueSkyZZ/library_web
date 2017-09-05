@@ -19,6 +19,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.struts2.ServletActionContext;
 
+import util.sql.SQLUtil;
+
 import entity.book.ExcelWorkSheet;
 import entity.book.BookDetailInfo;
 
@@ -119,7 +121,20 @@ public class ExcelUpload extends ActionSupport{
         
         for (int i = 0; i < excelWorkSheet.getData().size(); i++) {   
         	BookDetailInfo info = excelWorkSheet.getData().get(i);   
-            System.out.println(i + ":" +info.getBookname());   
+            System.out.println(i + ":" +info.getBookname()); 
+            String isbn = info.getIsbn();
+            String bookname = info.getBookname();
+            String category = info.getCategory();
+            String publisher = info.getPublisher();
+            String version = info.getVersion();
+            String bookimg = info.getBookimg();
+            String outline = info.getOutline();
+            String bookAbstract = info.getBookAbstract();
+            String guide = info.getGuide();
+            String leftnum = info.getLeftnum();
+            String price = info.getPrice();
+            String author = info.getAuthor();
+            SQLUtil.addNewBook(isbn, bookname, category, publisher, version, bookimg, outline, bookAbstract, guide, leftnum, price, author);
         }
         System.out.println("Ìá½»Ã»´í");
         

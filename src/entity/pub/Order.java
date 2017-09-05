@@ -9,6 +9,7 @@ public class Order {
 	private String bookname;
 	private String reservetime;
 	private String leftnum;
+	private String bookimg;
 	
 	public String getWeid() {
 		return weid;
@@ -52,4 +53,11 @@ public class Order {
 	public void setLeftnum(String leftnum) {
 		this.leftnum = leftnum;
 	}
+	public String getBookimg() {
+		return bookimg;
+	}
+	public void setBookimg(String bookimg) {
+		this.bookimg = bookimg;
+	}
+	
 }
