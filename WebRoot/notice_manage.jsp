@@ -131,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<div class="row">
      		
      		<div class="col-sm-12">
-     			<button type="button" class="btn btn-primary" id="announcement" style="margin-left:5%;">
+     			<button type="button" class="btn btn-primary" id="announcement" style="margin-left:1%;">
      				<em class="glyphicon glyphicon-send">&nbsp;</em>发布
      			</button>
      		</div>
@@ -174,7 +174,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      		</div>	
      	
      		<div class="col-sm-6" style="margin-top:11%;">
-     			<button type="button" class="btn btn-primary" onclick="image.click()" style="margin-left:34%;">替换图片</button>
+     			<button type="button" class="btn btn-primary" onclick="image.click()" style="margin-left:3%;">替换图片</button>
 	     		<div class="col-sm-12">
 	     			<img id="noticeImg" src="http://118.89.198.254/library/image/announcement/1.jpg">
 					<form action="#" enctype="multipart/form-data" method="post" id="userForm">
@@ -356,7 +356,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$("#noticeImg").attr("src", objUrl) ; 
 				console.log(objUrl);
 				console.log(this.name);
-				//ajaxSubmitForm();
+				ajaxSubmitForm();
 			}
 
 		});

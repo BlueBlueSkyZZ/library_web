@@ -44,7 +44,8 @@ public class BookAction extends ActionSupport{
     	String price = request.getParameter("newPrice");
     	String author = request.getParameter("newAuthor");
     	
-    	SQLUtil.addNewBook(isbn, bookname, category, publisher, version, bookimg, outline, bookAbstract, guide, leftnum, price, author);
+    	SQLUtil.addNewBook(isbn, bookname, category, publisher, version, "/library_web/book_img/" + bookimg,
+    			outline, bookAbstract, guide, leftnum, price, author);
     	
     	pw.flush();
     	pw.close();
@@ -109,6 +110,37 @@ public class BookAction extends ActionSupport{
     	BookDetailInfo book = SQLUtil.getOneBook(bookno);
     	String jsonStr = JSONArray.fromObject(book).toString();
     	pw.write(jsonStr);
+    	pw.flush();
+    	pw.close();
+	}
+	
+	/**
+	 * 保存图书信息修改
+	 * @throws IOException 
+	 */
+	public void saveChange() throws IOException{
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+    	response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("utf-8");
+    	PrintWriter pw = response.getWriter();
+    	
+    	pw.write(1);
+    	pw.flush();
+    	pw.close();
+	}
+	/**
+	 * 图书下架
+	 * @throws IOException 
+	 */
+	public void offBook() throws IOException{
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+    	response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("utf-8");
+    	PrintWriter pw = response.getWriter();
+    	
+    	pw.write(1);
     	pw.flush();
     	pw.close();
 	}

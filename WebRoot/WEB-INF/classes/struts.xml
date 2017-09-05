@@ -68,6 +68,14 @@
 		<action name="add_new_book" class="action.book.BookAction" method="addNewBook">
 		</action>
 		
+	<!-- 保存图书修改 -->
+		<action name="save_book_change" class="action.book.BookAction" method="saveChange">
+		</action>
+		
+	<!-- 图书下架管理 -->
+		<action name="off_book" class="action.book.BookAction" method="offBook">
+		</action>
+		
 	<!-- 分页 -->
 		<action name="show_limit_books" class="action.book.BookAction" method="showLimitBooks">
 		</action>

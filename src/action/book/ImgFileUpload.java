@@ -56,6 +56,11 @@ public class ImgFileUpload extends ActionSupport{
 		
 		String path = ServletActionContext.getRequest().getSession()
 				.getServletContext().getRealPath("/book_img/");
+//		String path =ServletActionContext.getRequest().getSession()
+//				.getServletContext().getRealPath("/");
+//		String[] paths = path.split("_");
+//		String imgPath = paths[0] + '\\' + "image\\announcement\\";
+		System.out.println(path);
 		System.out.println(imageFileName);
 		OutputStream os = new FileOutputStream(
 				new File(path, imageFileName));

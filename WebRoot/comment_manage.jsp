@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		#commentBox{
 			border:2px solid;
-			border-radius:25px;
+			border-radius:10px;
 			box-shadow: 3px 3px 1px #888888;
 			height : 75%;
 			width : 100%;
@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		#comHistory{
 			border:solid #000 1px;
-			border-radius:25px;
+			border-radius:10px;
 			margin-top:20px;
 			margin-left:20px;
 			width:70%;
@@ -337,6 +337,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             		var wename = obj.wename;
          			if(bookname == ""){
          				alert("审核完毕，没有更多了");
+         				location.reload();
          			}else{
          				updateComment(wename, realname, time, bookname, comment, commentid);
          				highlight("comment",keyword);

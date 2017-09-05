@@ -53,7 +53,7 @@
 		height: 450px;
 		width: 75%;
 		border: solid 1px #8080c0;
-		border-radius: 25px;
+		border-radius: 10px;
 		box-shadow: 3px 3px 1px #888888;
 		margin: 0 auto;
 		margin-bottom: 20px;
@@ -123,6 +123,94 @@
 	.rank3{
 		background-color:#FFAC38;
 	}
+	
+	
+	
+	.center-block {
+	    float: none;
+	    margin-left: auto;
+	    margin-right: auto;
+	}
+	
+	.input-group .icon-addon .form-control {
+	    border-radius: 0;
+	}
+	
+	.icon-addon {
+	    position: relative;
+	    color: #555;
+	    display: block;
+	}
+	
+	.icon-addon:after,
+	.icon-addon:before {
+	    display: table;
+	    content: " ";
+	}
+	
+	.icon-addon:after {
+	    clear: both;
+	}
+	
+	.icon-addon.addon-md .glyphicon,
+	.icon-addon .glyphicon, 
+	.icon-addon.addon-md .fa,
+	.icon-addon .fa {
+	    position: absolute;
+	    z-index: 2;
+	    left: 10px;
+	    font-size: 14px;
+	    width: 20px;
+	    margin-left: -2.5px;
+	    text-align: center;
+	    padding: 10px 0;
+	    top: 1px
+	}
+	
+	.icon-addon.addon-lg .form-control {
+	    line-height: 1.33;
+	    height: 46px;
+	    font-size: 18px;
+	    padding: 10px 16px 10px 40px;
+	}
+	
+	.icon-addon.addon-sm .form-control {
+	    height: 30px;
+	    padding: 5px 10px 5px 28px;
+	    font-size: 12px;
+	    line-height: 1.5;
+	}
+	
+	.icon-addon.addon-lg .fa,
+	.icon-addon.addon-lg .glyphicon {
+	    font-size: 18px;
+	    margin-left: 0;
+	    left: 11px;
+	    top: 4px;
+	}
+	
+	.icon-addon.addon-md .form-control,
+	.icon-addon .form-control {
+	    padding-left: 30px;
+	    float: left;
+	    font-weight: normal;
+	}
+	
+	.icon-addon.addon-sm .fa,
+	.icon-addon.addon-sm .glyphicon {
+	    margin-left: 0;
+	    font-size: 12px;
+	    left: 5px;
+	    top: -1px
+	}
+	
+	.icon-addon .form-control:focus + .glyphicon,
+	.icon-addon:hover .glyphicon,
+	.icon-addon .form-control:focus + .fa,
+	.icon-addon:hover .fa {
+	    color: #2580db;
+	}
+	
 	</style>
 </head>
   
@@ -206,8 +294,8 @@
 		</div><!--/.row-->
 
 		<div class="row">
-			<div class="col-xs-12 col-sm-4" id="add">
-				<div class="panel panel-blue panel-widget">
+			<div class="col-xs-12 col-sm-2" id="add">
+				<!--  <div class="panel panel-blue panel-widget">
 					<div class="row no-padding">
 						<a href="javascript:void(0)">
 							<div class="col-sm-4 widget-left">
@@ -219,23 +307,15 @@
 							<div class="text-muted">点击添加图书</div>
 						</div>
 					</div>
-				</div>
+				</div>-->
+				<button type="button" class="btn btn-primary" style="margin-left:5%;">
+     				<em class="glyphicon glyphicon-plus">&nbsp;</em>添加图书
+     			</button>
 			</div>
-
-			<div class="col-xs-12 col-sm-4">
-
-				<section class="webdesigntuts-workshop" style="margin-top:6%;">  
-					<input type="search" placeholder="搜索你想查询的图书" id="keyBox">		    	
-					<button id="search">
-						<em class="glyphicon glyphicon-search"></em>
-					</button>	
-				</section>
-				
-			</div>
-
-			<div class="col-xs-12 col-sm-4">
-				<div class="btn-group" style="margin-top:6%;">
-					<button type="button" class="btn btn-info btn-lg dropdown-toggle" 
+			
+			<div class="col-xs-12 col-sm-2">
+				<div class="btn-group" >
+					<button type="button" class="btn btn-info dropdown-toggle" 
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectCate">
 						<span id="selectedCate1">类别</span>
 						<span class="caret"></span>
@@ -256,17 +336,48 @@
 				</div>
 
 			</div>
+			
+			<div class="col-xs-12 col-sm-4">
+				<button type="button" class="btn btn-primary pull-right"  onclick="upexcel.click()">
+					<em class="glyphicon glyphicon-upload"></em>
+					导入图书
+				</button>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<button type="button" class="btn btn-info" onclick="outputExcel.click()">
+					<em class="glyphicon glyphicon-download"></em>
+					导出图书
+				</button>
+			</div>
 
-			<div class="col-xs-8 col-sm-8 col-xs-8-offset-1 col-sm-offset-1">
-				<button type="button" class="btn btn-primary pull-right"  onclick="upexcel.click()">导入图书</button>
-				<form action="#" enctype="multipart/form-data" method="post" id="uploadExcel" style="visibility: hidden; position: absolute;">
-					<input type="file" id="upexcel" name="excelFile" ><!--onchange="uploadFile()"-->
-				</form>
-			</div>
-			<div class="col-xs-3 col-sm-3">
-				<button type="button" class="btn btn-info" onclick="outputExcel.click()">导出图书</button>
-			</div>
+			<div class="col-xs-12 col-sm-3">
+				<div class="form-group" style="margin-left:2%;margin-top:5%;">
+	                <div class="input-group input-group-md">
+	                    <!--<span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>-->
+	                    <div class="icon-addon addon-md">
+	                        <input type="text" placeholder="bookname" class="form-control" id="keyBox">
+	                        <label for="email" class="glyphicon glyphicon-search" rel="tooltip" title="email"></label>
+	                    </div>
+	                    <span class="input-group-btn">
+	                        <button class="btn btn-primary" type="button" id="search">Go!</button>
+	                    </span>
+	                </div>
+	            </div>
+				<!--<section class="webdesigntuts-workshop" style="margin-top:6%;">  
+					<input type="search" placeholder="搜索你想查询的图书" id="keyBox">		    	
+					<button id="search">
+						<em class="glyphicon glyphicon-search"></em>
+					</button>	
+				</section>-->
 				
+			</div>
+
+			
+
+			
+			<form action="#" enctype="multipart/form-data" method="post" id="uploadExcel" style="visibility: hidden; position: absolute;">
+				<input type="file" id="upexcel" name="excelFile" ><!--onchange="uploadFile()"-->
+			</form>	
 			<form id="searchform" action="output_excel.action" method="post" style="display:none;">   
 					<input type="submit" value="导出" id="outputExcel"/>  
 			</form>
@@ -476,7 +587,8 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary" id="saveButton">保存</button>
+						<button type="button" class="btn btn-warning" id="offButton">下架</button>
+						<button type="button" class="btn btn-primary" id="saveButton2">保存</button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
@@ -778,9 +890,10 @@
 		}
 		
 		$(function(){
+			var bookno;
 			//父节点绑定点击事件
 			$("#wrapper").on("click", ".showBook", function(){
-				var bookno = $(this).attr("bookno");
+				bookno = $(this).attr("bookno");
 				console.log(bookno);
 				$.ajax({    
 					type:'post',        
@@ -813,6 +926,7 @@
 		         			var version = obj.version;
 		         			
 		         			$("#nowBookImg").attr("src", bookimg);
+		         			$("#nowBookImg").attr("bookno", bookno);
 		         			$("#nowAbstract").html(bookAbstract);
 		         			$("#nowBookName").val(bookname);
 		         			$("#nowAuthor").val(author);
@@ -836,8 +950,142 @@
 				
 				$("#mymodal2").modal("toggle");
 			});
-			
+				
 		});
+		
+			$("#saveButton2").click(function(){
+				save_book_change();
+			});
+			
+			$("#offButton").click(function(){
+				offBook();
+			});
+			
+			/*$("#nowBookImg").attr("src", bookimg);
+		         			$("#nowBookImg").attr("bookno", bookno);
+		         			$("#nowAbstract").html(bookAbstract);
+		         			$("#nowBookName").val(bookname);
+		         			$("#nowAuthor").val(author);
+		         			$("#nowPublisher").val(publisher);
+		         			$("#selectedCate3").html(category);
+		         			$("#nowGuide").html(guide);
+		         			$("#nowISBN").val(isbn);
+		         			$("#nowVersion").val(version);
+		         			$("#nowPrice").val(price);
+		         			$("#nowLeftNum").val(leftnum);
+		         			$("#nowOutline").val(outline);*/
+			
+			//保存修改
+			function save_book_change(){
+				$.ajax({    
+					type:'post',        
+					url:'/library_web/save_book_change.action',    
+					data:{	
+						bookno : bookno
+	            	},   
+	            	cache:false,    
+	            	//dataType:'json',    
+	            	success:function(data){ 
+	            		console.log("请求数据成功" + data);
+	            		if(data == "[]"){
+	            			alert("没有更多数据了");
+	            		}else{
+	            			$.each(eval("(" + data+ ")"), function (index, obj) {
+							    var author = obj.author;
+			            		var bookAbstract = obj.bookAbstract;
+			            		var bookimg = obj.bookimg;
+			            		var bookname = obj.bookname;
+			            		var bookno = obj.bookno;
+			            		var category = obj.category;
+			            		var guide = obj.guide;
+			            		var isbn = obj.isbn;
+			            		var leftnum = obj.leftnum;
+			         			var outline = obj.outline;
+			         			var price = obj.price;
+			         			var publisher = obj.publisher;
+			         			var readingnum = obj.readingnum;
+			         			var score = obj.score;
+			         			var version = obj.version;
+			         			
+			         			$("#nowBookImg").attr("src", bookimg);
+			         			$("#nowAbstract").html(bookAbstract);
+			         			$("#nowBookName").val(bookname);
+			         			$("#nowAuthor").val(author);
+			         			$("#nowPublisher").val(publisher);
+			         			$("#selectedCate3").html(category);
+			         			$("#nowGuide").html(guide);
+			         			$("#nowISBN").val(isbn);
+			         			$("#nowVersion").val(version);
+			         			$("#nowPrice").val(price);
+			         			$("#nowLeftNum").val(leftnum);
+			         			$("#nowOutline").val(outline);
+							});
+		            	};
+		            	
+						//$("#mymodal4").modal("toggle");
+		            },
+		            error:function(){
+		            	console.log("请求数据失败");
+		            } 
+	        	}); 
+			}
+			
+			//下架图书
+			function offBook(){
+				
+				$.ajax({    
+					type:'post',        
+					url:'/library_web/offBook.action',    
+					data:{	
+						bookno : bookno
+	            	},   
+	            	cache:false,    
+	            	//dataType:'json',    
+	            	success:function(data){ 
+	            		console.log("请求数据成功" + data);
+	            		if(data == "[]"){
+	            			alert("没有更多数据了");
+	            		}else{
+	            			$.each(eval("(" + data+ ")"), function (index, obj) {
+							    var author = obj.author;
+			            		var bookAbstract = obj.bookAbstract;
+			            		var bookimg = obj.bookimg;
+			            		var bookname = obj.bookname;
+			            		var bookno = obj.bookno;
+			            		var category = obj.category;
+			            		var guide = obj.guide;
+			            		var isbn = obj.isbn;
+			            		var leftnum = obj.leftnum;
+			         			var outline = obj.outline;
+			         			var price = obj.price;
+			         			var publisher = obj.publisher;
+			         			var readingnum = obj.readingnum;
+			         			var score = obj.score;
+			         			var version = obj.version;
+			         			
+			         			$("#nowBookImg").attr("src", bookimg);
+			         			$("#nowAbstract").html(bookAbstract);
+			         			$("#nowBookName").val(bookname);
+			         			$("#nowAuthor").val(author);
+			         			$("#nowPublisher").val(publisher);
+			         			$("#selectedCate3").html(category);
+			         			$("#nowGuide").html(guide);
+			         			$("#nowISBN").val(isbn);
+			         			$("#nowVersion").val(version);
+			         			$("#nowPrice").val(price);
+			         			$("#nowLeftNum").val(leftnum);
+			         			$("#nowOutline").val(outline);
+							});
+		            	};
+		            	
+						//$("#mymodal4").modal("toggle");
+		            },
+		            error:function(){
+		            	console.log("请求数据失败");
+		            } 
+	        	}); 
+			}
+		
 	</script>
 
 	
@@ -973,14 +1221,12 @@
 	    	return false; 
 	    }
 	    
-	    $("#saveButton").click(function(){
 	    
-	    });
 	</script>
 	
 	<script>
 		//上传excel
-		//添加图书图片
+		
 		$("#upexcel").bind("change", function(){
 			console.log("状态改变了");
 			

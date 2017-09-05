@@ -139,8 +139,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 
 
-		<div class="row col-sm-4">
-			<div class="panel panel-blue panel-widget" id="add">
+		<div class="row col-sm-4" id="add">
+			<!-- <div class="panel panel-blue panel-widget" id="add">
 				<div class="row no-padding">
 					<a href="javascript:void(0)">
 						<div class="col-sm-4 widget-left">
@@ -152,7 +152,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="text-muted">点击添加管理员</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
+			
+			<button type="button" class="btn btn-primary btn-lg" style="margin-left:2%;margin-bottom:3%;">
+     			<em class="glyphicon glyphicon-plus">&nbsp;</em>添加管理员
+     		</button>
+			
 		</div>
 
 
