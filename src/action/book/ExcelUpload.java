@@ -121,7 +121,7 @@ public class ExcelUpload extends ActionSupport{
         
         for (int i = 0; i < excelWorkSheet.getData().size(); i++) {   
         	BookDetailInfo info = excelWorkSheet.getData().get(i);   
-            System.out.println(i + ":" +info.getBookname()); 
+           // System.out.println(i + ":" +info.getBookname()); 
             String isbn = info.getIsbn();
             String bookname = info.getBookname();
             String category = info.getCategory();

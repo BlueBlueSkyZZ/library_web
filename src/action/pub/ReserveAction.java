@@ -50,7 +50,7 @@ public class ReserveAction extends ActionSupport{
     	String weid = request.getParameter("weid");
     	System.out.println(bookno + weid);
     	//TODO 这里的数据库操作
-    	//SQLUtil.permitReserve(bookno, weid);
+    	SQLUtil.permitReserve(bookno, weid);
     	recomBookDaily(Integer.valueOf(bookno), weid);
     	pw.write("success");
     	pw.flush();

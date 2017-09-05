@@ -11,11 +11,12 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/datepicker3.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
-
+	
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/searchStyle.css" media="screen" type="text/css" />
 	
 	<link rel="stylesheet" type="text/css" href="css/pullToRefresh.css">
+	<link rel="stylesheet" type="text/css" href="css/8-circle.css">
 	<style type="text/css">
 	.myBooks { 
 		/*background-color: #e8e8ff;*/
@@ -239,6 +240,7 @@
 		</div><!-- /.container-fluid -->
 	</nav>
 
+
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<form role="search">
 			<div class="form-group">
@@ -338,9 +340,23 @@
 			</div>
 			
 			<div class="col-xs-12 col-sm-4">
-				<button type="button" class="btn btn-primary pull-right"  onclick="upexcel.click()">
+				<button type="button" class="btn btn-primary pull-right"  onclick="upexcel.click()" >
 					<em class="glyphicon glyphicon-upload"></em>
 					导入图书
+					<div class="sk-circle" style="display:none;">
+				        <div class="sk-circle1 sk-child"></div>
+				        <div class="sk-circle2 sk-child"></div>
+				        <div class="sk-circle3 sk-child"></div>
+				        <div class="sk-circle4 sk-child"></div>
+				        <div class="sk-circle5 sk-child"></div>
+				        <div class="sk-circle6 sk-child"></div>
+				        <div class="sk-circle7 sk-child"></div>
+				        <div class="sk-circle8 sk-child"></div>
+				        <div class="sk-circle9 sk-child"></div>
+				        <div class="sk-circle10 sk-child"></div>
+				        <div class="sk-circle11 sk-child"></div>
+				        <div class="sk-circle12 sk-child"></div>
+				      </div>
 				</button>
 			</div>
 			<div class="col-xs-12 col-sm-4">
@@ -349,7 +365,9 @@
 					导出图书
 				</button>
 			</div>
-
+			
+			
+			
 			<div class="col-xs-12 col-sm-3">
 				<div class="form-group" style="margin-left:2%;margin-top:5%;">
 	                <div class="input-group input-group-md">
@@ -983,6 +1001,9 @@
 			
 			//保存修改
 			function save_book_change(){
+				
+				
+				
 				$.ajax({    
 					type:'post',        
 					url:'/library_web/save_book_change.action',    
@@ -1235,12 +1256,14 @@
 		
 		$("#upexcel").bind("change", function(){
 			console.log("状态改变了");
-			
+			$(".sk-circle").show();
 			$("#uploadExcel").ajaxSubmit({
 				type:'post',  
 	    		url:'/library_web/upload_excel.action',
 	    		success:function(data){  
 	    			console.log(data);
+	    			$(".sk-circle").hide();
+	    			alert("完成导入");
 	    		},  
 	    		error:function(XmlHttpRequest,textStatus,errorThrown){  
 	    			console.log(XmlHttpRequest);  
